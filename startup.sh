@@ -1,6 +1,6 @@
 # install UV and Python 3.10
 curl -LsSf https://astral.sh/uv/install.sh | sh
-source $HOME/.local/bin/env
+source /root/.local/bin/env
 uv python install 3.10
 
 # install gcsfuse
@@ -11,26 +11,28 @@ sudo apt-get update
 sudo apt-get install gcsfuse -y
 
 # mount GCS bucket
-mkdir -p $HOME/gcs-bucket
-gcsfuse --implicit-dirs my-training-log $HOME/gcs-bucket
+mkdir -p /root/gcs-bucket
+gcsfuse --implicit-dirs my-training-log /root/gcs-bucket
 
 # clone repo
-cd $HOME
-git clone git@github.com:WangZesen/decent-sam-grc.git
+cd /root
+git clone https://github.com/WangZesen/decent-sam-grc.git
 cd decent-sam-grc
 
 # setup python environment
 uv sync
 
-# run
-uv run image-cifar/test.py
+# get instance name
+INSTANCE_NAME=$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/name)
 
-# touch a file to indicate the job is done
-touch $HOME/gcs-bucket/DONE
+# run
+export XLA_IR_DEBUG=1
+export TF_CPP_MIN_LOG_LEVEL=0
+uv run image-cifar/test.py > /root/gcs-bucket/logs/${INSTANCE_NAME}_output.log 2>&1
 
 # delete the mounted bucket
-fusermount -u $HOME/gcs-bucket
-rm -rf $HOME/gcs-bucket
+fusermount -u /root/gcs-bucket
+rm -rf /root/gcs-bucket
 
 # delete the queued resource
-gcloud compute tpus queued-resources delete my-queue --zone=us-central2-b --quiet --force --project=$GRC_PROJECT
+gcloud compute tpus queued-resources delete my-queue --zone=us-central2-b --quiet --force --project=research-tpu-480810
