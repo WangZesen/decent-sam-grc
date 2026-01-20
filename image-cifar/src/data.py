@@ -174,6 +174,7 @@ class CifarLoader:
     def __iter__(self):
         augmented_images, indices = self._get_augmented_images_and_indices()
         torch_xla.sync()
+        print("Data loader epoch {} prepared on device {}".format(self._epoch, xm.get_local_ordinal()), flush=True)
 
         for i in range(len(self)):
             idx = indices[i * self._batch_size : min((i + 1) * self._batch_size, self._images.shape[0])]
