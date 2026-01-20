@@ -159,7 +159,8 @@ class DecentDP(torch.nn.Module):
     def sync_buffers(self):
         for buffer in self._module.buffers():
             if buffer.dtype in [torch.float16, torch.float32, torch.float64]:
-                dist.all_reduce(buffer, op=dist.ReduceOp.AVG)
+                buffer.div_(self._world_size)
+                xm.all_reduce(xm.REDUCE_SUM, buffer)
             else:
                 dist.broadcast(buffer, src=0)
 
@@ -216,16 +217,14 @@ def train_epoch(
         model.start_comm()
 
         batch_size = images.size(0)
-        total_loss_tpu += loss * batch_size
+        total_loss_tpu += loss.clone().detach() * batch_size
         num_samples += batch_size
-        print(num_samples, flush=True)
-        
-        
+    print(num_samples, flush=True)
 
     torch_xla.sync()
     end_time = time.time()
 
-    data = torch.tensor([total_loss_tpu, num_samples], device=torch_xla.device())
+    data = torch.tensor([total_loss_tpu, num_samples], device=torch_xla.device(), requires_grad=False)
     xm.all_reduce(xm.REDUCE_SUM, data)
     avg_loss = (data[0] / data[1]).item()
     torch_xla.sync()
@@ -245,11 +244,12 @@ def eval_epoch(
         with torch.autocast(enabled=cfg.amp, device_type=torch_xla.device().type):
             for images, _ in train_loader:
                 model(images)
+                torch_xla.sync()
     model.eval()
     model.sync_buffers()
 
-    total_loss = 0.0
-    total_correct = 0
+    total_loss = torch.tensor(0.0, device=torch_xla.device(), requires_grad=False)
+    total_correct = torch.tensor(0.0, device=torch_xla.device(), requires_grad=False)
     total_samples = 0
     with torch.no_grad():
         for images, labels in test_loader:
@@ -257,16 +257,17 @@ def eval_epoch(
             loss = criterion(outputs, labels)
 
             batch_size = images.size(0)
-            total_loss += loss.item() * batch_size
-            total_correct += (outputs.argmax(dim=1) == labels).sum().item()
+            total_loss += loss.clone().detach() * batch_size
+            total_correct += (outputs.argmax(dim=1) == labels).sum()
             total_samples += batch_size
-    data = torch.tensor([total_loss, total_correct, total_samples], device=torch_xla.device())
-    dist.all_reduce(data, op=dist.ReduceOp.SUM)
+            torch_xla.sync()
+    data = torch.tensor([total_loss, total_correct, total_samples], device=torch_xla.device(), requires_grad=False)
+    xm.all_reduce(xm.REDUCE_SUM, data)
     avg_loss = (data[0] / data[2]).item()
     accuracy = (data[1] / data[2]).item()
 
     model.restore()
-
+    torch_xla.sync()
     return avg_loss, accuracy, d2c
 
 
