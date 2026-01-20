@@ -86,8 +86,8 @@ class DecentDP(torch.nn.Module):
 
             # Store a view of the chunk back to the parameter for easy access
             param.data = chunk.view_as(param)
-
             offset += aligned_size
+        self._comm_bucket.copy_(self._param_bucket)
 
     @torch.no_grad()
     def _create_comm_groups(self):
@@ -160,10 +160,11 @@ class DecentDP(torch.nn.Module):
     def sync_buffers(self):
         for buffer in self._module.buffers():
             if buffer.dtype in [torch.float16, torch.float32, torch.float64]:
-                buffer.div_(self._world_size)
                 xm.all_reduce(xm.REDUCE_SUM, buffer)
+                buffer.div_(self._world_size)
             else:
                 pass
+        torch_xla.sync()
 
     def _align(self, size: int):
         return ((size + 31) // 32) * 32
@@ -205,24 +206,23 @@ def train_epoch(
 
     for images, labels in train_loader:
         gamma = get_adaptive_gamma(cfg, scheduler.get_last_lr()[0], max_lr, epoch)
-
+        model.start_comm()
         optimizer.zero_grad()
-        with torch.autocast(enabled=cfg.amp, device_type=torch_xla.device().type):
-            outputs = model(images)
-            loss = criterion(outputs, labels)
+        outputs = model(images)
+        loss = criterion(outputs, labels)
         loss.backward()
-        torch_xla.sync()
         model.mix(gamma)
         optimizer.step()
         scheduler.step()
-        model.start_comm()
-
+        
         batch_size = images.size(0)
         total_loss_tpu += loss.clone().detach() * batch_size
         num_samples += batch_size
+        torch_xla.sync(wait=False)
     print(num_samples, flush=True)
 
     torch_xla.sync()
+    xm.xla_rendezvous(b"check_loss_sync")
     end_time = time.time()
 
     data = torch.tensor([total_loss_tpu, num_samples], device=torch_xla.device(), requires_grad=False)
@@ -242,10 +242,9 @@ def eval_epoch(
     d2c = model.global_avg()
     with torch.no_grad():
         model.train()
-        with torch.autocast(enabled=cfg.amp, device_type=torch_xla.device().type):
-            for images, _ in train_loader:
-                model(images)
-                torch_xla.sync()
+        for images, _ in train_loader:
+            model(images)
+            torch_xla.sync()
     model.eval()
     model.sync_buffers()
 
@@ -420,4 +419,4 @@ def main(rank: int):
 
 
 if __name__ == "__main__":
-    torch_xla.launch(main)    
+    torch_xla.launch(main)

@@ -67,10 +67,10 @@ class Config(_BaseModel):
     dataset: Dataset = Dataset.CIFAR10
     model: Model = Model.WRN_28_10
     epochs: int = 200
-    base_lr: float = 0.1
+    base_lr: float = 0.2
     scheduler: CosineLRSchedulerConfig = Field(default_factory=CosineLRSchedulerConfig)
     optimizer: SGDConfig = Field(default_factory=SGDConfig)
-    batch_size: int = 128
+    batch_size: int = 256
     seed: int = 42
     log: LogConfig = Field(default_factory=LogConfig)
     trainer: ALL_TRAINER_CONFIGS = Field(default_factory=DecentTrainConfig)
