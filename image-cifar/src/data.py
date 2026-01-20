@@ -1,6 +1,7 @@
 import os
 import torch_xla
 import torch
+import torch_xla.core.xla_model as xm
 import torch.distributed as dist
 import datasets
 from enum import Enum
@@ -87,8 +88,8 @@ class CifarLoader:
         base_seed: int = 42,
         data_path: str = "./data",
     ):
-        if dist.is_initialized() and (dist.get_rank() != 0):
-            dist.barrier()  # ensure only rank 0 processes dataset first
+        if not xm.is_master_ordinal(local=True):
+            xm.xla_rendezvous(b"data_loader_init")
         
         device = torch_xla.device()
 
@@ -123,8 +124,8 @@ class CifarLoader:
                 pt_path,
             )
         
-        if dist.is_initialized() and (dist.get_rank() == 0):
-            dist.barrier()  # ensure rank 0 waits for other ranks to finish processing
+        if xm.is_master_ordinal(local=True):
+            xm.xla_rendezvous(b"data_loader_init")
 
         # load processed dataset
         data = torch.load(pt_path, map_location=device)
