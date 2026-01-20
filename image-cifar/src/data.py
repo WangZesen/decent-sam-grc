@@ -86,7 +86,7 @@ class CifarLoader:
     ):
         if not xm.is_master_ordinal(local=True):
             xm.xla_rendezvous(b"data_loader_init")
-        
+
         device = torch_xla.device()
 
         # default path to store processed datasets
@@ -119,12 +119,12 @@ class CifarLoader:
                 },
                 pt_path,
             )
-        
+
         if xm.is_master_ordinal(local=True):
             xm.xla_rendezvous(b"data_loader_init")
 
         # load processed dataset
-        data = torch.load(pt_path, map_location='cpu')
+        data = torch.load(pt_path, map_location="cpu")
         self._images, self._labels, mean, std, self._num_classes = (
             data["images"],
             data["labels"],
@@ -172,21 +172,7 @@ class CifarLoader:
         )
 
     def __iter__(self):
-        # augmented_images, indices = self._get_augmented_images_and_indices()
-        # torch_xla.sync()
-
-        # for i in range(len(self)):
-        #     idx = indices[i * self._batch_size : min((i + 1) * self._batch_size, self._images.shape[0])]
-        #     idx = idx[self._rank :: self._num_replicas] if self._num_replicas > 0 else idx
-        #     if idx.numel() > 0:
-        #         if self._num_replicas > 0:
-        #             yield (
-        #                 augmented_images[idx].view(-1, *augmented_images.shape[1:]),
-        #                 self._labels[idx].view(-1),
-        #             )
-        #         else:
-        #             yield augmented_images[idx], self._labels[idx]
-
+        torch_xla.sync()
         augmented_images, indices = self._get_augmented_images_and_indices()
         torch_xla.sync()
 
@@ -196,11 +182,11 @@ class CifarLoader:
             if idx.numel() > 0:
                 if self._num_replicas > 0:
                     yield (
-                        self._images[idx],
+                        augmented_images[idx],
                         self._labels[idx].view(-1),
                     )
                 else:
-                    yield self._images[idx], self._labels[idx]
+                    yield augmented_images[idx], self._labels[idx]
 
     def set_epoch(self, epoch: int):
         self._epoch = epoch
@@ -209,7 +195,7 @@ class CifarLoader:
         torch_xla.manual_seed(self._epoch + self._base_seed * 1007)
         augmented_images = self._batch_transform(self._images)
         if self._shuffle:
-            indices = torch.randperm(len(augmented_images), device='cpu')
+            indices = torch.randperm(len(augmented_images), device="cpu")
         else:
-            indices = torch.arange(len(augmented_images), device='cpu')
+            indices = torch.arange(len(augmented_images), device="cpu")
         return augmented_images, indices

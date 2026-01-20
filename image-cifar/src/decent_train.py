@@ -204,10 +204,10 @@ def train_epoch(
 
         optimizer.zero_grad()
         with torch.autocast(enabled=cfg.amp, device_type=torch_xla.device().type):
-            outputs = model(images.float() / 255.0)
+            outputs = model(images)
             loss = criterion(outputs, labels)
         loss.backward()
-        
+        torch_xla.sync()
         # model.mix(gamma)
         optimizer.step()
         scheduler.step()
@@ -218,7 +218,7 @@ def train_epoch(
         num_samples += batch_size
         print(num_samples, flush=True)
         
-        torch_xla.sync()
+        
 
     torch_xla.sync()
     end_time = time.time()
