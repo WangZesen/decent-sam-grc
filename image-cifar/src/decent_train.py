@@ -228,9 +228,9 @@ def train_epoch(
     avg_loss = (data[0] / data[1]).item()
     torch_xla.sync()
     if xm.is_master_ordinal(local=True):
-        print(met.short_metrics_report(), flush=True)
-        print(met.metrics_report(), flush=True)
-    exit(0)
+        with open(f"./report_{epoch}.txt", "w") as f:
+            print(met.short_metrics_report(), flush=True, file=f)
+            print(met.metrics_report(), flush=True, file=f)
     return avg_loss, end_time - start_time
 
 
