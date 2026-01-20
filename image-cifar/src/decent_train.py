@@ -216,7 +216,7 @@ def train_epoch(
         batch_size = images.size(0)
         total_loss_tpu += loss * batch_size
         num_samples += batch_size
-        print(num_samples)
+        print(num_samples, flush=True)
 
     torch_xla.sync()
     end_time = time.time()
