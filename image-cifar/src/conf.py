@@ -74,7 +74,7 @@ class Config(_BaseModel):
     seed: int = 42
     log: LogConfig = Field(default_factory=LogConfig)
     trainer: ALL_TRAINER_CONFIGS = Field(default_factory=DecentTrainConfig)
-    amp: bool = True
+    amp: bool = False
 
 
 class Env(_BaseModel):

@@ -207,7 +207,7 @@ def train_epoch(
             outputs = model(images)
             loss = criterion(outputs, labels)
         loss.backward()
-        torch_xla.sync()
+        
         # model.mix(gamma)
         optimizer.step()
         scheduler.step()
@@ -217,6 +217,8 @@ def train_epoch(
         total_loss_tpu += loss * batch_size
         num_samples += batch_size
         print(num_samples, flush=True)
+        
+        torch_xla.sync()
 
     torch_xla.sync()
     end_time = time.time()
