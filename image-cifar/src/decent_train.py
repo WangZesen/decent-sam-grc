@@ -121,12 +121,8 @@ class DecentDP(torch.nn.Module):
 
     @torch.no_grad()
     def mix(self, gamma: float = 1.0):
-        if self._comm_op is not None:
-            self._comm_op.wait()
-            self._comm_op = None
-
-            self._param_bucket.mul_(1 - gamma)
-            self._param_bucket.add_(self._comm_bucket, alpha=gamma)
+        self._param_bucket.mul_(1 - gamma)
+        self._param_bucket.add_(self._comm_bucket, alpha=gamma)
 
     @torch.no_grad()
     def start_comm(self):
@@ -201,12 +197,13 @@ def train_epoch(
     model.train()
     total_loss_tpu = torch.tensor(0.0, device=torch_xla.device(), requires_grad=False)
     num_samples = 0
+    gamma = 1.0
 
     torch_xla.sync()
     start_time = time.time()
 
     for images, labels in train_loader:
-        gamma = get_adaptive_gamma(cfg, scheduler.get_last_lr()[0], max_lr, epoch)
+        # gamma = get_adaptive_gamma(cfg, scheduler.get_last_lr()[0], max_lr, epoch)
         model.start_comm()
         optimizer.zero_grad()
         outputs = model(images)
@@ -230,6 +227,10 @@ def train_epoch(
     xm.all_reduce(xm.REDUCE_SUM, data)
     avg_loss = (data[0] / data[1]).item()
     torch_xla.sync()
+    if xm.is_master_ordinal(local=True):
+        print(met.short_metrics_report(), flush=True)
+        print(met.metrics_report(), flush=True)
+    exit(0)
     return avg_loss, end_time - start_time
 
 
@@ -270,10 +271,6 @@ def eval_epoch(
 
     model.restore()
     torch_xla.sync()
-    if xm.is_master_ordinal(local=True):
-        print(met.short_metrics_report(), flush=True)
-        print(met.metrics_report(), flush=True)
-    exit(0)
     return avg_loss, accuracy, d2c
 
 
@@ -298,6 +295,7 @@ def main(rank: int):
         cfg_obj = cfg.model_dump()
         env = collect_env()
         cfg_obj["env"] = env.model_dump()
+        logger.info(env)
     if xm.is_master_ordinal(local=False):
         pass
         # wandb.init(
