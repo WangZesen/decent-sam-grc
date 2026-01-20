@@ -193,7 +193,7 @@ def train_epoch(
     max_lr: float,
 ) -> Tuple[float, float]:
     model.train()
-    total_loss = 0.0
+    total_loss_tpu = torch.tensor(0.0, device=torch_xla.device())
     num_samples = 0
 
     torch_xla.sync()
@@ -214,15 +214,17 @@ def train_epoch(
         model.start_comm()
 
         batch_size = images.size(0)
-        total_loss += loss.item() * batch_size
+        total_loss_tpu += loss * batch_size
         num_samples += batch_size
+        print(num_samples)
 
     torch_xla.sync()
     end_time = time.time()
 
-    data = torch.tensor([total_loss, num_samples], device=torch_xla.device())
-    dist.all_reduce(data, op=dist.ReduceOp.SUM)
+    data = torch.tensor([total_loss_tpu, num_samples], device=torch_xla.device())
+    xm.all_reduce(xm.REDUCE_SUM, data)
     avg_loss = data[0].item() / data[1].item()
+    torch_xla.sync()
     return avg_loss, end_time - start_time
 
 
