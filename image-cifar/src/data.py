@@ -172,6 +172,21 @@ class CifarLoader:
         )
 
     def __iter__(self):
+        # augmented_images, indices = self._get_augmented_images_and_indices()
+        # torch_xla.sync()
+
+        # for i in range(len(self)):
+        #     idx = indices[i * self._batch_size : min((i + 1) * self._batch_size, self._images.shape[0])]
+        #     idx = idx[self._rank :: self._num_replicas] if self._num_replicas > 0 else idx
+        #     if idx.numel() > 0:
+        #         if self._num_replicas > 0:
+        #             yield (
+        #                 augmented_images[idx].view(-1, *augmented_images.shape[1:]),
+        #                 self._labels[idx].view(-1),
+        #             )
+        #         else:
+        #             yield augmented_images[idx], self._labels[idx]
+
         augmented_images, indices = self._get_augmented_images_and_indices()
         torch_xla.sync()
 
@@ -181,11 +196,11 @@ class CifarLoader:
             if idx.numel() > 0:
                 if self._num_replicas > 0:
                     yield (
-                        augmented_images[idx].view(-1, *augmented_images.shape[1:]),
+                        self._images[idx],
                         self._labels[idx].view(-1),
                     )
                 else:
-                    yield augmented_images[idx], self._labels[idx]
+                    yield self._images[idx], self._labels[idx]
 
     def set_epoch(self, epoch: int):
         self._epoch = epoch
@@ -197,5 +212,4 @@ class CifarLoader:
             indices = torch.randperm(len(augmented_images), device='cpu')
         else:
             indices = torch.arange(len(augmented_images), device='cpu')
-        indices = indices.to(torch_xla.device())
         return augmented_images, indices
