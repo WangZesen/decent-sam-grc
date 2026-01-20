@@ -2,7 +2,6 @@ import os
 import torch_xla
 import torch
 import torch_xla.core.xla_model as xm
-import torch.distributed as dist
 import datasets
 from enum import Enum
 import torch.nn.functional as F
@@ -128,7 +127,7 @@ class CifarLoader:
             xm.xla_rendezvous(b"data_loader_init")
 
         # load processed dataset
-        data = torch.load(pt_path, map_location=device)
+        data = torch.load(pt_path, map_location='cpu')
         self._images, self._labels, mean, std, self._num_classes = (
             data["images"],
             data["labels"],
@@ -136,6 +135,8 @@ class CifarLoader:
             data["std"],
             data["num_classes"],
         )
+        self._images = self._images.to(device)
+        self._labels = self._labels.to(device)
 
         # setup parameters
         self._batch_size = batch_size
