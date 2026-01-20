@@ -35,7 +35,6 @@ LABEL_NAMES: Final[Dict[Dataset, str]] = {
 
 def batch_random_crop_flip(
     images: torch.Tensor,
-    generator: torch.Generator,
     padding: int = 4,
     crop_size: int = 32,
     flip_p: float = 0.5,
@@ -48,16 +47,14 @@ def batch_random_crop_flip(
         H + 2 * padding - crop_size + 1,
         (B,),
         device=images.device,
-        generator=generator,
     )
     y_shifts = torch.randint(
         0,
         W + 2 * padding - crop_size + 1,
         (B,),
         device=images.device,
-        generator=generator,
     )
-    flip_mask = torch.rand(B, device=images.device, generator=generator) < flip_p
+    flip_mask = torch.rand(B, device=images.device) < flip_p
 
     augmented_images = torch.empty((B, C, crop_size, crop_size), device=images.device, dtype=images.dtype)
     tmp_images = torch.empty((B, C, crop_size, W + 2 * padding), device=images.device, dtype=images.dtype)
@@ -137,6 +134,7 @@ class CifarLoader:
         )
         self._images = self._images.to(device)
         self._labels = self._labels.to(device)
+        torch_xla.sync()
 
         # setup parameters
         self._batch_size = batch_size
@@ -160,11 +158,11 @@ class CifarLoader:
         )
 
         if train:
-            self._batch_transform = lambda images, generator: self._transform(
-                batch_random_crop_flip(images, generator, padding=4, crop_size=32, flip_p=0.5)
+            self._batch_transform = lambda images: self._transform(
+                batch_random_crop_flip(images, padding=4, crop_size=32, flip_p=0.5)
             )
         else:
-            self._batch_transform = lambda images, _: self._transform(images)
+            self._batch_transform = lambda images: self._transform(images)
 
     def __len__(self) -> int:
         return (
@@ -175,6 +173,7 @@ class CifarLoader:
 
     def __iter__(self):
         augmented_images, indices = self._get_augmented_images_and_indices()
+        torch_xla.sync()
 
         for i in range(len(self)):
             idx = indices[i * self._batch_size : min((i + 1) * self._batch_size, self._images.shape[0])]
@@ -192,11 +191,10 @@ class CifarLoader:
         self._epoch = epoch
 
     def _get_augmented_images_and_indices(self) -> Tuple[torch.Tensor, torch.Tensor]:
-        generator = torch.Generator(device=self._images.device)
-        generator.manual_seed(self._epoch + self._base_seed * 1007)
-        augmented_images = self._batch_transform(self._images, generator)
+        torch_xla.manual_seed(self._epoch + self._base_seed * 1007)
+        augmented_images = self._batch_transform(self._images)
         if self._shuffle:
-            indices = torch.randperm(len(augmented_images), device=self._images.device, generator=generator)
+            indices = torch.randperm(len(augmented_images), device=self._images.device)
         else:
             indices = torch.arange(len(augmented_images), device=self._images.device)
         return augmented_images, indices
