@@ -62,8 +62,10 @@ class DecentDP(torch.nn.Module):
 
     @torch.no_grad()
     def _sync_params(self):
+        data = []
         for param in self._module.parameters():
-            dist.broadcast(param.data, src=0)
+            data.append(param.data)
+        xm.collective_broadcast(data, root_ordinal=0)
 
     @torch.no_grad()
     def _create_buckets(self):
@@ -137,7 +139,6 @@ class DecentDP(torch.nn.Module):
             xm.REDUCE_SUM,
             self._comm_bucket,
             groups=self._comm_groups[self._step % len(self._comm_groups)],
-            pin_layout=True
         )
 
     @torch.no_grad()
@@ -162,7 +163,7 @@ class DecentDP(torch.nn.Module):
                 buffer.div_(self._world_size)
                 xm.all_reduce(xm.REDUCE_SUM, buffer)
             else:
-                dist.broadcast(buffer, src=0)
+                pass
 
     def _align(self, size: int):
         return ((size + 31) // 32) * 32
@@ -251,6 +252,7 @@ def eval_epoch(
     total_loss = torch.tensor(0.0, device=torch_xla.device(), requires_grad=False)
     total_correct = torch.tensor(0.0, device=torch_xla.device(), requires_grad=False)
     total_samples = 0
+    torch_xla.sync()
     with torch.no_grad():
         for images, labels in test_loader:
             outputs = model(images)

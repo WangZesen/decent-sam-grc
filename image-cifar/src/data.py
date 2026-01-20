@@ -172,9 +172,7 @@ class CifarLoader:
         )
 
     def __iter__(self):
-        torch_xla.sync()
         augmented_images, indices = self._get_augmented_images_and_indices()
-        torch_xla.sync()
 
         for i in range(len(self)):
             idx = indices[i * self._batch_size : min((i + 1) * self._batch_size, self._images.shape[0])]
