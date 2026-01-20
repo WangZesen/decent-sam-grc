@@ -143,9 +143,11 @@ class DecentDP(torch.nn.Module):
     @torch.no_grad()
     def global_avg(self) -> float:
         self._backup = self._param_bucket.clone()
-        dist.all_reduce(self._param_bucket, op=dist.ReduceOp.AVG)
+        xm.all_reduce(xm.REDUCE_SUM, self._param_bucket)
+        self._param_bucket.div_(self._world_size)
         d2c = torch.norm(self._param_bucket - self._backup)
-        dist.all_reduce(d2c, op=dist.ReduceOp.AVG)
+        xm.all_reduce(xm.REDUCE_SUM, d2c)
+        d2c = d2c / self._world_size
         return d2c.item()
 
     @torch.no_grad()
@@ -193,7 +195,7 @@ def train_epoch(
     max_lr: float,
 ) -> Tuple[float, float]:
     model.train()
-    total_loss_tpu = torch.tensor(0.0, device=torch_xla.device())
+    total_loss_tpu = torch.tensor(0.0, device=torch_xla.device(), requires_grad=False)
     num_samples = 0
 
     torch_xla.sync()
@@ -208,10 +210,10 @@ def train_epoch(
             loss = criterion(outputs, labels)
         loss.backward()
         torch_xla.sync()
-        # model.mix(gamma)
+        model.mix(gamma)
         optimizer.step()
         scheduler.step()
-        # model.start_comm()
+        model.start_comm()
 
         batch_size = images.size(0)
         total_loss_tpu += loss * batch_size
@@ -225,7 +227,7 @@ def train_epoch(
 
     data = torch.tensor([total_loss_tpu, num_samples], device=torch_xla.device())
     xm.all_reduce(xm.REDUCE_SUM, data)
-    avg_loss = data[0].item() / data[1].item()
+    avg_loss = (data[0] / data[1]).item()
     torch_xla.sync()
     return avg_loss, end_time - start_time
 
