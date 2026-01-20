@@ -14,6 +14,7 @@ from src.data import CifarLoader, Dataset
 from src.conf import Config, load_all_configs, Topology
 from src.model import get_model
 from src.utils import get_param_groups, get_scheduler, collect_env, get_group_name, get_adaptive_gamma, get_run_name
+import torch_xla.debug.metrics as met
 
 
 @dataclass
@@ -269,6 +270,10 @@ def eval_epoch(
 
     model.restore()
     torch_xla.sync()
+    if xm.is_master_ordinal(local=True):
+        print(met.short_metrics_report(), flush=True)
+        print(met.metrics_report(), flush=True)
+    exit(0)
     return avg_loss, accuracy, d2c
 
 
