@@ -2,6 +2,7 @@ import os
 import subprocess
 import torch
 import torch.nn as nn
+import torch_xla.runtime as xr
 from src.conf import Config, Env
 
 
@@ -55,9 +56,9 @@ def get_scheduler(
 
 def collect_env() -> Env:
     env = {
-        "world_size": int(os.environ.get("WORLD_SIZE", 1)),
-        "gpu": subprocess.getoutput("nvidia-smi --query-gpu=name --format=csv,noheader").split("\n")[0],
-        "node_list": os.environ.get("SLURM_NODELIST", "localhost"),
+        "world_size": xr.world_size(),
+        "gpu": "",
+        "node_list": "",
     }
     return Env(**env)
 

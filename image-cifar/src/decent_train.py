@@ -194,6 +194,8 @@ def train_epoch(
     cfg: Config,
     max_lr: float,
 ) -> Tuple[float, float]:
+    met.clear_all()
+
     model.train()
     total_loss_tpu = torch.tensor(0.0, device=torch_xla.device(), requires_grad=False)
     num_samples = 0
@@ -296,6 +298,7 @@ def main(rank: int):
         env = collect_env()
         cfg_obj["env"] = env.model_dump()
         logger.info(env)
+        logger.info(f"world_size: {world_size}, rank: {rank}")
     if xm.is_master_ordinal(local=False):
         pass
         # wandb.init(
@@ -309,6 +312,7 @@ def main(rank: int):
 
     torch.manual_seed(cfg.seed)
     torch_xla.manual_seed(cfg.seed)
+    xm.xla_rendezvous(b"setup_complete")
 
     train_ds = CifarLoader(
         ds_name=cfg.dataset,
