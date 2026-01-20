@@ -206,12 +206,12 @@ def train_epoch(
 
     for images, labels in train_loader:
         # gamma = get_adaptive_gamma(cfg, scheduler.get_last_lr()[0], max_lr, epoch)
-        model.start_comm()
+        # model.start_comm()
         optimizer.zero_grad()
         outputs = model(images)
         loss = criterion(outputs, labels)
         loss.backward()
-        model.mix(gamma)
+        # model.mix(gamma)
         optimizer.step()
         scheduler.step()
         
