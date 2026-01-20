@@ -316,7 +316,7 @@ def main(rank: int):
     )
 
     model = get_model(cfg.model, num_classes=10 if cfg.dataset == Dataset.CIFAR10 else 100)
-    model.forward = torch.compile(model.forward)
+    # model.forward = torch.compile(model.forward)
     model = DecentDP(model, topology=cfg.trainer.topology)
 
     optimizer = torch.optim.SGD(
