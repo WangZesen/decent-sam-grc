@@ -28,7 +28,9 @@ INSTANCE_NAME=$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.inte
 # run
 export XLA_IR_DEBUG=1
 export TF_CPP_MIN_LOG_LEVEL=0
-uv run image-cifar/test.py > /root/gcs-bucket/logs/${INSTANCE_NAME}_output.log 2>&1
+timestamp=$(date +%Y%m%d_%H%M%S)
+PJRT_DEVICE=TPU uv run image-cifar/test.py > out.log 2>&1
+cp out.log /root/gcs-bucket/${INSTANCE_NAME}_out_${timestamp}.log
 
 # delete the mounted bucket
 fusermount -u /root/gcs-bucket

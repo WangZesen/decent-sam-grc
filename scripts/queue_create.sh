@@ -1,13 +1,11 @@
 #!/usr/bin/bash
 
-gcloud compute tpus queued-resources create my-queue \
+gcloud compute tpus queued-resources create on-demand-v4-32 \
     --zone=us-central2-b \
     --project=$GRC_PROJECT \
     --runtime-version=tpu-ubuntu2204-base \
     --accelerator-type=v4-8 \
-    --node-count=2 \
+    --node-count=4 \
     --subnetwork=my-tpu-subnet \
     --network=my-tpu-network \
-    --metadata startup-script-url="gs://my-training-log/scripts/startup.sh" \
-    --spot \
-    --valid-until-duration=1h
+    --valid-until-duration=168h
