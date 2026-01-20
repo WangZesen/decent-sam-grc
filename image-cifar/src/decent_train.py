@@ -204,7 +204,7 @@ def train_epoch(
 
         optimizer.zero_grad()
         with torch.autocast(enabled=cfg.amp, device_type=torch_xla.device().type):
-            outputs = model(images)
+            outputs = model(images.float() / 255.0)
             loss = criterion(outputs, labels)
         loss.backward()
         
