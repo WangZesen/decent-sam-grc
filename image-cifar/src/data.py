@@ -194,7 +194,8 @@ class CifarLoader:
         torch_xla.manual_seed(self._epoch + self._base_seed * 1007)
         augmented_images = self._batch_transform(self._images)
         if self._shuffle:
-            indices = torch.randperm(len(augmented_images), device=self._images.device)
+            indices = torch.randperm(len(augmented_images), device='cpu')
         else:
-            indices = torch.arange(len(augmented_images), device=self._images.device)
+            indices = torch.arange(len(augmented_images), device='cpu')
+        indices = indices.to(torch_xla.device())
         return augmented_images, indices
