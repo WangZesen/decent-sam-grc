@@ -213,9 +213,9 @@ def train_epoch(
         optimizer.step()
         scheduler.step()
         
-        batch_size = images.size(0)
-        total_loss_tpu += loss.clone().detach() * batch_size
-        num_samples += batch_size
+        # batch_size = images.size(0)
+        # total_loss_tpu += loss.clone().detach() * batch_size
+        # num_samples += batch_size
         torch_xla.sync(wait=False)
     print(num_samples, flush=True)
 
