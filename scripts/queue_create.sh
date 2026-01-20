@@ -8,6 +8,6 @@ gcloud compute tpus queued-resources create my-queue \
     --node-count=2 \
     --subnetwork=my-tpu-subnet \
     --network=my-tpu-network \
-    --metadata startup-script=./startup.sh \
+    --metadata startup-script-url="gs://my-training-log/scripts/startup.sh" \
     --spot \
     --valid-until-duration=1h

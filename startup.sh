@@ -32,7 +32,21 @@ uv run image-cifar/test.py > /root/gcs-bucket/logs/${INSTANCE_NAME}_output.log 2
 
 # delete the mounted bucket
 fusermount -u /root/gcs-bucket
-rm -rf /root/gcs-bucket
 
 # delete the queued resource
-gcloud compute tpus queued-resources delete my-queue --zone=us-central2-b --quiet --force --project=research-tpu-480810
+delete_qr() {
+    local id=$1
+    local zone="us-central2-b"
+    local project="research-tpu-480810"
+    
+    echo "Attempting to delete Queued Resource: $id"
+
+    gcloud alpha compute tpus queued-resources delete $id --zone=$zone --project=$project --quiet --force && return 0
+
+    gcloud beta compute tpus queued-resources delete $id --zone=$zone --project=$project --quiet --force && return 0
+
+    gcloud compute tpus queued-resources delete $id --zone=$zone --project=$project --quiet --force
+}
+
+QR_ID=$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/attributes/queued-resource-id)
+delete_qr $QR_ID
