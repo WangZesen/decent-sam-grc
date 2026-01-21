@@ -93,9 +93,11 @@ class DecentDP(torch.nn.Module):
                 for i in range(1, self._world_size, 2):
                     ranks = sorted([i, (i + 1) % self._world_size])
                     self._comm_groups[-1].append(ranks)
+                self._weight = 0.5
             case Topology.COMPLETE:
                 ranks = list(range(self._world_size))
                 self._comm_groups: list[list[list[int]]] = [[ranks]]
+                self._weight = 1.0 / self._world_size
             case Topology.EXP:
                 self._comm_groups: list[list[list[int]]] = []
                 exp = 1
@@ -107,6 +109,7 @@ class DecentDP(torch.nn.Module):
                             ranks = sorted([i, j])
                             self._comm_groups[-1].append(ranks)
                     exp <<= 1
+                self._weight = 0.5
             case _:
                 raise ValueError(f"Unsupported topology: {self._topology}")
 
@@ -114,23 +117,19 @@ class DecentDP(torch.nn.Module):
     def mix(self, gamma: float = 1.0):
         # torch._foreach_mul_(self._params, 1 - gamma)
         # torch._foreach_add_(self._params, self._comm_buffers, alpha=gamma)
-
+        xm.wait_device_ops()
         torch._foreach_copy_(self._params, self._comm_buffers)
 
     @torch.no_grad()
     def start_comm(self):
-        weight = 0.0
-        for group_ranks in self._comm_groups[self._step % len(self._comm_groups)]:
-            if self._rank in group_ranks:
-                weight = 1.0 / len(group_ranks)
-                break
         torch._foreach_copy_(self._comm_buffers, self._params)
-        torch._foreach_mul_(self._comm_buffers, weight)
         xm.all_reduce(
             xm.REDUCE_SUM,
             self._comm_buffers,
+            scale=self._weight,
             groups=self._comm_groups[self._step % len(self._comm_groups)],
         )
+        self._step += 1
 
     @torch.no_grad()
     def global_avg(self) -> float:
@@ -138,13 +137,13 @@ class DecentDP(torch.nn.Module):
         xm.all_reduce(
             xm.REDUCE_SUM,
             self._params,
+            scale=1.0 / self._world_size,
         )
-        torch._foreach_div_(self._params, self._world_size)
         d2c = torch.norm(torch.stack([torch.norm(p1 - p2) for p1, p2 in zip(self._params, self._backup_buffers)]))
-        xm.all_reduce(xm.REDUCE_SUM, d2c)
-        d2c = d2c / self._world_size
+        d2c = xm.all_reduce(xm.REDUCE_SUM, d2c, scale=1.0 / self._world_size)
+        xm.wait_device_ops()
         torch_xla.sync()
-        return d2c.item()
+        return d2c.item()  # type: ignore
 
     @torch.no_grad()
     def restore(self):
@@ -152,14 +151,13 @@ class DecentDP(torch.nn.Module):
 
     @torch.no_grad()
     def sync_buffers(self):
-        data = []
+        data: list[torch.Tensor] = []
         for buffer in self._module.buffers():
             if buffer.dtype in [torch.float16, torch.float32, torch.float64]:
                 data.append(buffer)
             else:
                 pass
-        xm.all_reduce(xm.REDUCE_SUM, data)
-        torch._foreach_div_(data, self._world_size)
+        xm.all_reduce(xm.REDUCE_SUM, data, scale=1.0 / self._world_size)
         torch_xla.sync()
 
     def _align(self, size: int):
@@ -204,30 +202,25 @@ def train_epoch(
 
     for images, labels in train_loader:
         # gamma = get_adaptive_gamma(cfg, scheduler.get_last_lr()[0], max_lr, epoch)
-        with xp.Trace('comm_start'):
-            model.start_comm()
+        model.start_comm()
         optimizer.zero_grad()
-        with xp.Trace('forward'):
-            outputs = model(images)
-            loss = criterion(outputs, labels)
-        with xp.Trace('backward'):
-            loss.backward()
-        with xp.Trace('mix'):
-            model.mix(gamma)
-        with xp.Trace('optimizer_step'):
-            optimizer.step()
-            scheduler.step()
+        outputs = model(images)
+        loss = criterion(outputs, labels)
+        loss.backward()
+        model.mix(gamma)
+        optimizer.step()
+        scheduler.step()
 
         batch_size = images.size(0)
         total_loss_tpu += loss * batch_size
         num_samples += batch_size
         torch_xla.sync(wait=False)
 
-    torch_xla.sync()
     end_time = time.time()
-
+    xm.wait_device_ops()
     data = torch.stack([total_loss_tpu, num_samples], dim=0)
-    xm.all_reduce(xm.REDUCE_SUM, data)
+    data = xm.all_reduce(xm.REDUCE_SUM, data)
+    xm.wait_device_ops()
     torch_xla.sync()
     avg_loss = (data[0] / data[1]).item()
 
@@ -264,8 +257,9 @@ def eval_epoch(
             total_correct += (outputs.argmax(dim=1) == labels).sum()
             total_samples += batch_size
             torch_xla.sync()
-    data = torch.stack([total_loss, total_correct, total_samples], dim=0)
-    xm.all_reduce(xm.REDUCE_SUM, data)
+    data = torch.stack([total_loss, total_correct, total_samples])
+    data = xm.all_reduce(xm.REDUCE_SUM, data)
+    xm.wait_device_ops()
     torch_xla.sync()
     avg_loss = (data[0] / data[2]).item()
     accuracy = (data[1] / data[2]).item()
@@ -404,11 +398,12 @@ def main(rank: int):
             if xm.is_master_ordinal(local=True):
                 logger.info(f"Epoch [{epoch + 1}/{cfg.epochs}] Train Loss: {train_loss:.5f}")
 
-    xp.stop_trace()
-
     if xm.is_master_ordinal(local=True):
-        stats.to_csv(f"./logs/{os.environ.get('SLURM_JOB_ID')}/stats.csv", index=False)
+        os.makedirs(f"./logs/test", exist_ok=True)
+        stats.to_csv(f"./logs/test/stats.csv", index=False)
         # wandb.finish()
+    
+    xp.stop_trace()
 
     dist.destroy_process_group()
 

@@ -6,18 +6,26 @@ import subprocess
 from typing import Final
 from loguru import logger
 
-SOFTWARE_VERSION: Final[dict[str, str]] = {"v4": "tpu-ubuntu2204-base", "v5litepod": "v2-alpha-tpuv5-lite"}
+SOFTWARE_VERSION: Final[dict[str, str]] = {
+    "v4": "tpu-ubuntu2204-base",
+    "v5litepod": "v2-alpha-tpuv5-lite",
+    "v6e": "v2-alpha-tpuv6e",
+}
 TOPOLOGY_MAP: Final[dict[int, str]] = {
     8: "1x1x1",
     16: "2x1x1",
     32: "2x2x1",
     64: "2x2x2",
 }
-ALLOCATED_PAIRS = set([
-    ("v4", "us-central2-b"),
-    ("v5litepod", "europe-west4-b"),
-    ("v5litepod", "us-central1-a"),
-])
+ALLOCATED_PAIRS = set(
+    [
+        ("v4", "us-central2-b"),
+        ("v5litepod", "europe-west4-b"),
+        ("v5litepod", "us-central1-a"),
+        ("v6e", "europe-west4-a"),
+    ]
+)
+
 
 def fetch_queue_status(queue_name: str, zone: str) -> str:
     command = [
@@ -28,7 +36,7 @@ def fetch_queue_status(queue_name: str, zone: str) -> str:
         "describe",
         queue_name,
         f"--zone={zone}",
-        '--format=value(state)',
+        "--format=value(state)",
     ]
     result = subprocess.check_output(command)
     return result.decode("utf-8").strip().split("=")[-1]
@@ -106,55 +114,74 @@ def setup_env(queue_name: str, zone: str):
         f"{queue_name}",
         f"--zone={zone}",
         "--worker=all",
-        "--command={vm_command}"
+        "--command={vm_command}",
     ]
 
-    vm_command = "curl -LsSf https://astral.sh/uv/install.sh | sh\n" \
-                 "source $HOME/.local/bin/env\n" \
-                 "uv python install 3.10"
+    vm_command = "curl -LsSf https://astral.sh/uv/install.sh | sh\nsource $HOME/.local/bin/env\nuv python install 3.10"
     command = [cmd.format(vm_command=vm_command) for cmd in vm_command_template]
-    out = subprocess.check_output(command, stderr=subprocess.STDOUT).decode("utf-8")
+    subprocess.check_call(command, stderr=subprocess.STDOUT)
     logger.info("Environment setup done")
 
-    vm_command = 'export GCSFUSE_REPO=gcsfuse-`lsb_release -c -s`;' \
-                 'echo "deb https://packages.cloud.google.com/apt $GCSFUSE_REPO main" | sudo tee /etc/apt/sources.list.d/gcsfuse.list; ' \
-                 'curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -; ' \
-                 'sudo apt-get update; ' \
-                 'sudo apt-get install gcsfuse -y'
-    command = [cmd.format(vm_command=vm_command) for cmd in vm_command_template]
-    out = subprocess.check_output(command, stderr=subprocess.STDOUT).decode("utf-8")
-    logger.info("GCSFUSE installation done")
+    # vm_command = (
+    #     "export GCSFUSE_REPO=gcsfuse-`lsb_release -c -s`;"
+    #     'echo "deb https://packages.cloud.google.com/apt $GCSFUSE_REPO main" | sudo tee /etc/apt/sources.list.d/gcsfuse.list; '
+    #     "curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -; "
+    #     "sudo apt-get update; "
+    #     "sudo apt-get install gcsfuse -y"
+    # )
+    # command = [cmd.format(vm_command=vm_command) for cmd in vm_command_template]
+    # out = subprocess.check_output(command, stderr=subprocess.STDOUT).decode("utf-8")
+    # logger.info("GCSFUSE installation done")
 
-    vm_command = "mkdir -p $HOME/gcs-bucket; gcsfuse --implicit-dirs my-training-log $HOME/gcs-bucket"
-    command = [cmd.format(vm_command=vm_command) for cmd in vm_command_template]
-    out = subprocess.check_output(command, stderr=subprocess.STDOUT).decode("utf-8")
-    logger.info("GCS bucket mount done")
+    # vm_command = "mkdir -p $HOME/gcs-bucket; gcsfuse --implicit-dirs my-training-log $HOME/gcs-bucket"
+    # command = [cmd.format(vm_command=vm_command) for cmd in vm_command_template]
+    # out = subprocess.check_output(command, stderr=subprocess.STDOUT).decode("utf-8")
+    # logger.info("GCS bucket mount done")
 
-    vm_command = "cd $HOME; rm -rf decent-sam-grc; git clone https://github.com/WangZesen/decent-sam-grc.git; cd decent-sam-grc; $HOME/.local/bin/uv sync"
-    command = [cmd.format(vm_command=vm_command) for cmd in vm_command_template]
-    out = subprocess.check_output(command, stderr=subprocess.STDOUT).decode("utf-8")
-    logger.info("Repository clone done")
 
-    vm_command = "cd $HOME/decent-sam-grc; " \
-                 "export XLA_IR_DEBUG=1; " \
-                 "export TF_CPP_MIN_LOG_LEVEL=0; " \
-                 f"export timestamp={datetime.datetime.now().strftime('%Y%m%d-%H%M%S')}; " \
-                 "PJRT_DEVICE=TPU $HOME/.local/bin/uv run image-cifar/test.py > out.log 2>&1"
+def launch_job(queue_name: str, zone: str):
+    vm_command_template = [
+        "gcloud",
+        "compute",
+        "tpus",
+        "tpu-vm",
+        "ssh",
+        f"{queue_name}",
+        f"--zone={zone}",
+        "--worker=all",
+        "--command={vm_command}",
+    ]
+
+    # vm_command = "cd $HOME; rm -rf decent-sam-grc; git clone https://github.com/WangZesen/decent-sam-grc.git; cd decent-sam-grc; $HOME/.local/bin/uv sync"
+    # command = [cmd.format(vm_command=vm_command) for cmd in vm_command_template]
+    # out = subprocess.check_output(command, stderr=subprocess.STDOUT).decode("utf-8")
+    # logger.info("Repository clone done")
+
+    vm_command = (
+        "cd $HOME/decent-sam-grc/image-cifar; "
+        "export XLA_ENABLE_ASYNC_COLLECTIVES=1; "
+        "export XLA_USE_BF16=1; "
+        "export XLA_TPU_ENABLE_BF16_CONVERSION=1; "
+        f"export timestamp={datetime.datetime.now().strftime('%Y%m%d-%H%M%S')}; "
+        "PJRT_DEVICE=TPU $HOME/.local/bin/uv run -m src.decent_train configs/topo/complete.toml > out.log 2>&1"
+    )
     command = [cmd.format(vm_command=vm_command) for cmd in vm_command_template]
     out = subprocess.check_output(command, stderr=subprocess.STDOUT).decode("utf-8")
     logger.info(f"Training job output: {out}")
 
 
-
 def run_job(args):
     try:
-        assert (args.tpu, args.zone) in ALLOCATED_PAIRS, f"TPU type {args.tpu} is not available in zone {args.zone}."
-
-        queue_name = create_tpu_vm_queue(tpu=args.tpu, num_cores=args.cores, zone=args.zone, time=args.duration)
-        wait_for_queue_ready(queue_name, zone=args.zone)
-        setup_env(queue_name, zone=args.zone)
-
+        if args.queue_name:
+            queue_name = args.queue_name
+            logger.info(f"Using existing TPU VM Queue: {queue_name}")
+        else:
+            assert (args.tpu, args.zone) in ALLOCATED_PAIRS, f"TPU type {args.tpu} is not available in zone {args.zone}."
+            queue_name = create_tpu_vm_queue(tpu=args.tpu, num_cores=args.cores, zone=args.zone, time=args.duration)
+            wait_for_queue_ready(queue_name, zone=args.zone)
+            setup_env(queue_name, zone=args.zone)
         logger.info("TPU VM Queue is ready for use.")
+        launch_job(queue_name, zone=args.zone)
     except subprocess.CalledProcessError as e:
         logger.error(f"An error occurred while creating or checking the TPU VM Queue: {e}")
     except AssertionError as ae:
@@ -167,10 +194,13 @@ def run_job(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Manage TPU VM Queues on GCP.")
-    parser.add_argument("-z", "--zone", type=str, default="europe-west4-b", help="GCP zone for the TPU VM Queue.")
-    parser.add_argument("-t", "--tpu", type=str, choices=["v4", "v5litepod"], default="v5litepod", help="Type of TPU.")
+    parser.add_argument("-z", "--zone", type=str, default="us-central1-a", help="GCP zone for the TPU VM Queue.")
+    parser.add_argument(
+        "-t", "--tpu", type=str, choices=["v4", "v5litepod", "v6e"], default="v5litepod", help="Type of TPU."
+    )
     parser.add_argument("-c", "--cores", type=int, default=8, help="Number of TPU cores.")
     parser.add_argument("-d", "--duration", type=str, default="8h", help="Duration for which the queue is valid.")
+    parser.add_argument("-q", "--queue-name", type=str, default="", help="Name of the TPU VM Queue to manage.")
     args = parser.parse_args()
 
     run_job(args)
