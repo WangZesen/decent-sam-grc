@@ -122,6 +122,11 @@ def setup_env(queue_name: str, zone: str):
     subprocess.check_call(command, stderr=subprocess.STDOUT)
     logger.info("Environment setup done")
 
+    vm_command = "cd $HOME; rm -rf decent-sam-grc; git clone https://github.com/WangZesen/decent-sam-grc.git; cd decent-sam-grc; $HOME/.local/bin/uv sync"
+    command = [cmd.format(vm_command=vm_command) for cmd in vm_command_template]
+    subprocess.check_call(command, stderr=subprocess.STDOUT)
+    logger.info("Repository clone done")
+
     # vm_command = (
     #     "export GCSFUSE_REPO=gcsfuse-`lsb_release -c -s`;"
     #     'echo "deb https://packages.cloud.google.com/apt $GCSFUSE_REPO main" | sudo tee /etc/apt/sources.list.d/gcsfuse.list; '
@@ -152,18 +157,10 @@ def launch_job(queue_name: str, zone: str):
         "--command={vm_command}",
     ]
 
-    # vm_command = "cd $HOME; rm -rf decent-sam-grc; git clone https://github.com/WangZesen/decent-sam-grc.git; cd decent-sam-grc; $HOME/.local/bin/uv sync"
-    # command = [cmd.format(vm_command=vm_command) for cmd in vm_command_template]
-    # out = subprocess.check_output(command, stderr=subprocess.STDOUT).decode("utf-8")
-    # logger.info("Repository clone done")
-
     vm_command = (
         "cd $HOME/decent-sam-grc/image-cifar; "
-        "export XLA_ENABLE_ASYNC_COLLECTIVES=1; "
-        "export XLA_USE_BF16=1; "
-        "export XLA_TPU_ENABLE_BF16_CONVERSION=1; "
         f"export timestamp={datetime.datetime.now().strftime('%Y%m%d-%H%M%S')}; "
-        "PJRT_DEVICE=TPU $HOME/.local/bin/uv run -m src.decent_train configs/topo/complete.toml > out.log 2>&1"
+        "PJRT_DEVICE=TPU $HOME/.local/bin/uv run -m src.decent_train configs/mix/mix-3@10.toml > out.log 2>&1"
     )
     command = [cmd.format(vm_command=vm_command) for cmd in vm_command_template]
     out = subprocess.check_output(command, stderr=subprocess.STDOUT).decode("utf-8")

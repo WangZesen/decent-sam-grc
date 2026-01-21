@@ -1,8 +1,6 @@
-import os
 import torch
 import torch.nn as nn
-import torch_xla.runtime as xr
-from src.conf import Config, Env
+from src.conf import Config
 
 
 def get_param_groups(module: nn.Module, weight_decay: float) -> list[dict]:
@@ -53,42 +51,33 @@ def get_scheduler(
     return scheduler
 
 
-def collect_env() -> Env:
-    env = {
-        "world_size": xr.world_size(),
-        "gpu": "",
-        "node_list": "",
-    }
-    return Env(**env)
+# def get_group_name(cfg: Config, env: Env) -> str:
+#     if cfg.trainer.name == "sync":
+#         return f"{cfg.trainer.name}_bs{cfg.batch_size}_ws{env.world_size}"
+#     elif cfg.trainer.name == "decent":
+#         if cfg.trainer.mix.name == "normal":
+#             return f"{cfg.trainer.name}_{cfg.trainer.topology.value}_bs{cfg.batch_size}_ws{env.world_size}"
+#         elif cfg.trainer.mix.name == "adaptive":
+#             return f"{cfg.trainer.name}_{cfg.trainer.topology.value}_amix{cfg.trainer.mix.p:.1f}@{cfg.trainer.mix.min_gamma:.2f}@{cfg.trainer.mix.start_epoch}_bs{cfg.batch_size}_ws{env.world_size}"
+#         else:
+#             raise ValueError(f"Unknown mix config: {cfg.trainer.mix.name}")
+#     else:
+#         raise ValueError(f"Unknown trainer: {cfg.trainer.name}")
 
 
-def get_group_name(cfg: Config, env: Env) -> str:
-    if cfg.trainer.name == "sync":
-        return f"{cfg.trainer.name}_bs{cfg.batch_size}_ws{env.world_size}"
-    elif cfg.trainer.name == "decent":
-        if cfg.trainer.mix.name == "normal":
-            return f"{cfg.trainer.name}_{cfg.trainer.topology.value}_bs{cfg.batch_size}_ws{env.world_size}"
-        elif cfg.trainer.mix.name == "adaptive":
-            return f"{cfg.trainer.name}_{cfg.trainer.topology.value}_amix{cfg.trainer.mix.p:.1f}@{cfg.trainer.mix.min_gamma:.2f}@{cfg.trainer.mix.start_epoch}_bs{cfg.batch_size}_ws{env.world_size}"
-        else:
-            raise ValueError(f"Unknown mix config: {cfg.trainer.mix.name}")
-    else:
-        raise ValueError(f"Unknown trainer: {cfg.trainer.name}")
-
-
-def get_run_name(cfg: Config, env: Env) -> str:
-    suffix = f"bs{cfg.batch_size}_ws{env.world_size}_seed{cfg.seed}_id{os.environ.get('SLURM_JOB_ID', 'local')}"
-    if cfg.trainer.name == "sync":
-        return f"{cfg.trainer.name}_{suffix}"
-    elif cfg.trainer.name == "decent":
-        if cfg.trainer.mix.name == "normal":
-            return f"{cfg.trainer.name}_{cfg.trainer.topology.value}_{suffix}"
-        elif cfg.trainer.mix.name == "adaptive":
-            return f"{cfg.trainer.name}_{cfg.trainer.topology.value}_amix{cfg.trainer.mix.p:.1f}@{cfg.trainer.mix.min_gamma:.2f}@{cfg.trainer.mix.start_epoch}_{suffix}"
-        else:
-            raise ValueError(f"Unknown mix config: {cfg.trainer.mix.name}")
-    else:
-        raise ValueError(f"Unknown trainer: {cfg.trainer.name}")
+# def get_run_name(cfg: Config, env: Env) -> str:
+#     suffix = f"bs{cfg.batch_size}_ws{env.world_size}_seed{cfg.seed}_id{os.environ.get('SLURM_JOB_ID', 'local')}"
+#     if cfg.trainer.name == "sync":
+#         return f"{cfg.trainer.name}_{suffix}"
+#     elif cfg.trainer.name == "decent":
+#         if cfg.trainer.mix.name == "normal":
+#             return f"{cfg.trainer.name}_{cfg.trainer.topology.value}_{suffix}"
+#         elif cfg.trainer.mix.name == "adaptive":
+#             return f"{cfg.trainer.name}_{cfg.trainer.topology.value}_amix{cfg.trainer.mix.p:.1f}@{cfg.trainer.mix.min_gamma:.2f}@{cfg.trainer.mix.start_epoch}_{suffix}"
+#         else:
+#             raise ValueError(f"Unknown mix config: {cfg.trainer.mix.name}")
+#     else:
+#         raise ValueError(f"Unknown trainer: {cfg.trainer.name}")
 
 
 def get_adaptive_gamma(cfg: Config, lr: float, max_lr: float, epoch: int) -> float:

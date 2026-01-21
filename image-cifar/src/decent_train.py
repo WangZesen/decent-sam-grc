@@ -1,7 +1,6 @@
 import os
 import sys
 import time
-import wandb
 import pandas as pd
 import torch
 import torch_xla
@@ -10,12 +9,15 @@ import torch.distributed as dist
 from typing import Optional, Tuple
 from dataclasses import dataclass
 from loguru import logger
-from src.data import CifarLoader, Dataset
+from src.data import Dataset
 from src.conf import Config, load_all_configs, Topology
 from src.model import get_model
-from src.utils import get_param_groups, get_scheduler, collect_env, get_group_name, get_adaptive_gamma, get_run_name
+from src.utils import get_param_groups, get_scheduler, get_adaptive_gamma
 import torchvision as tv
 from torch_xla.distributed.parallel_loader import MpDeviceLoader
+from torch_xla.amp.autocast_mode import autocast
+import torch_xla.runtime as xr
+
 
 @dataclass
 class CommGroup:
@@ -41,10 +43,9 @@ class DecentDP(torch.nn.Module):
         self._topology = topology
 
         # acquire distributed info from env variables
-        self._world_size = dist.get_world_size()
-        self._rank = dist.get_rank()
-        # self._local_world_size =
-        self._local_rank = xm.get_local_ordinal()
+        self._world_size = xr.world_size()
+        self._rank = xr.global_ordinal()
+        self._local_rank = xr.local_ordinal()
 
         # sync parameters at start
         self._sync_params()
@@ -116,10 +117,9 @@ class DecentDP(torch.nn.Module):
 
     @torch.no_grad()
     def mix(self, gamma: float = 1.0):
-        # torch._foreach_mul_(self._params, 1 - gamma)
-        # torch._foreach_add_(self._params, self._comm_buffers, alpha=gamma)
         xm.wait_device_ops()
-        torch._foreach_copy_(self._params, self._comm_buffers)
+        torch._foreach_mul_(self._params, 1 - gamma)
+        torch._foreach_add_(self._params, self._comm_buffers, alpha=gamma)
 
     @torch.no_grad()
     def start_comm(self):
@@ -193,21 +193,20 @@ def train_epoch(
     cfg: Config,
     max_lr: float,
 ) -> Tuple[float, float]:
-
     model.train()
     total_loss_tpu = torch.tensor(0.0, device=torch_xla.device(), requires_grad=False)
     num_samples = torch.tensor(0.0, device=torch_xla.device(), requires_grad=False)
-    gamma = 1.0
     start_time = time.time()
 
     torch_xla.sync(wait=True)
 
     for images, labels in train_loader:
-        # gamma = get_adaptive_gamma(cfg, scheduler.get_last_lr()[0], max_lr, epoch)
+        gamma = get_adaptive_gamma(cfg, scheduler.get_last_lr()[0], max_lr, epoch)
         model.start_comm()
         optimizer.zero_grad()
-        outputs = model(images)
-        loss = criterion(outputs, labels)
+        with autocast(torch_xla.device()):
+            outputs = model(images)
+            loss = criterion(outputs, labels)
         loss.backward()
         model.mix(gamma)
         optimizer.step()
@@ -226,7 +225,6 @@ def train_epoch(
     xm.wait_device_ops()
     torch_xla.sync()
     avg_loss = (data[0] / data[1]).item()
-
     return avg_loss, end_time - start_time
 
 
@@ -241,7 +239,8 @@ def eval_epoch(
     with torch.no_grad():
         model.train()
         for images, _ in train_loader:
-            model(images)
+            with autocast(torch_xla.device()):
+                model(images)
             torch_xla.sync()
     model.eval()
     model.sync_buffers()
@@ -266,7 +265,6 @@ def eval_epoch(
     torch_xla.sync()
     avg_loss = (data[0] / data[2]).item()
     accuracy = (data[1] / data[2]).item()
-
     model.restore()
     torch_xla.sync()
     return avg_loss, accuracy, d2c
@@ -276,24 +274,17 @@ def main(rank: int):
     cfg: Config = load_all_configs(sys.argv[1:])
     assert cfg.trainer.name == "decent", "This script only supports DecentDP trainer"
 
-    dist.init_process_group(
-        backend="xla",
-        init_method="xla://",
-    )
+    dist.init_process_group(backend="xla", init_method="xla://")
 
-    world_size = dist.get_world_size()
-    rank = dist.get_rank()
+    world_size = xr.world_size()
+    rank = xr.global_ordinal()
+    cfg.world_size = world_size
 
     logger.remove()
 
     if xm.is_master_ordinal(local=True):
         logger.add(sys.stdout, level="TRACE")
         logger.info(cfg)
-
-        cfg_obj = cfg.model_dump()
-        env = collect_env()
-        cfg_obj["env"] = env.model_dump()
-        logger.info(env)
         logger.info(f"world_size: {world_size}, rank: {rank}")
     if xm.is_master_ordinal(local=False):
         pass
@@ -313,7 +304,6 @@ def main(rank: int):
     if not xm.is_master_ordinal(local=True):
         xm.xla_rendezvous(b"data loading")
 
-
     # train_ds = CifarLoader(
     #     ds_name=cfg.dataset,
     #     train=True,
@@ -330,40 +320,68 @@ def main(rank: int):
     #     num_replicas=world_size,
     # )
 
-    train_dataset = tv.datasets.CIFAR10(
-        root="./data",
-        train=True,
-        download=True,
-        transform=tv.transforms.Compose(
-            [
-                tv.transforms.RandomCrop(32, padding=4),
-                tv.transforms.RandomHorizontalFlip(),
-                tv.transforms.ToTensor(),
-                tv.transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
-            ]
-        ),
-    )
+    if cfg.dataset == Dataset.CIFAR10:
+        train_dataset = tv.datasets.CIFAR10(
+            root="./data",
+            train=True,
+            download=True,
+            transform=tv.transforms.Compose(
+                [
+                    tv.transforms.RandomCrop(32, padding=4),
+                    tv.transforms.RandomHorizontalFlip(),
+                    tv.transforms.ToTensor(),
+                    tv.transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+                ]
+            ),
+        )
+    else:
+        train_dataset = tv.datasets.CIFAR100(
+            root="./data",
+            train=True,
+            download=True,
+            transform=tv.transforms.Compose(
+                [
+                    tv.transforms.RandomCrop(32, padding=4),
+                    tv.transforms.RandomHorizontalFlip(),
+                    tv.transforms.ToTensor(),
+                    tv.transforms.Normalize((0.5071, 0.4865, 0.4409), (0.2673, 0.2564, 0.2762)),
+                ]
+            ),
+        )
 
     train_sampler = torch.utils.data.DistributedSampler(
-                train_dataset,
-                num_replicas=world_size,
-                rank=rank,
-                shuffle=True,
-                seed=cfg.seed,
-                drop_last=True,
-            )
-
-    test_dataset = tv.datasets.CIFAR10(
-        root="./data",
-        train=False,
-        download=True,
-        transform=tv.transforms.Compose(
-            [
-                tv.transforms.ToTensor(),
-                tv.transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
-            ]
-        ),
+        train_dataset,
+        num_replicas=world_size,
+        rank=rank,
+        shuffle=True,
+        seed=cfg.seed,
+        drop_last=True,
     )
+
+    if cfg.dataset == Dataset.CIFAR10:
+        test_dataset = tv.datasets.CIFAR10(
+            root="./data",
+            train=False,
+            download=True,
+            transform=tv.transforms.Compose(
+                [
+                    tv.transforms.ToTensor(),
+                    tv.transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+                ]
+            ),
+        )
+    else:
+        test_dataset = tv.datasets.CIFAR100(
+            root="./data",
+            train=False,
+            download=True,
+            transform=tv.transforms.Compose(
+                [
+                    tv.transforms.ToTensor(),
+                    tv.transforms.Normalize((0.5071, 0.4865, 0.4409), (0.2673, 0.2564, 0.2762)),
+                ]
+            ),
+        )
 
     train_ds = MpDeviceLoader(
         torch.utils.data.DataLoader(
@@ -371,11 +389,13 @@ def main(rank: int):
             batch_size=cfg.batch_size // world_size,
             sampler=train_sampler,
             num_workers=4,
+            drop_last=True,
             persistent_workers=True,
             prefetch_factor=16,
         ),
         device=torch_xla.device(),
     )
+
     test_ds = MpDeviceLoader(
         torch.utils.data.DataLoader(
             test_dataset,
@@ -391,16 +411,16 @@ def main(rank: int):
             num_workers=4,
             persistent_workers=True,
             prefetch_factor=16,
+            drop_last=False,
         ),
         device=torch_xla.device(),
     )
-
 
     if xm.is_master_ordinal(local=True):
         xm.xla_rendezvous(b"data loading")
 
     model = get_model(cfg.model, num_classes=10 if cfg.dataset == Dataset.CIFAR10 else 100)
-    # model.forward = torch.compile(model.forward)
+    model.forward = torch.compile(model.forward)
     model = DecentDP(model, topology=cfg.trainer.topology)
 
     optimizer = torch.optim.SGD(

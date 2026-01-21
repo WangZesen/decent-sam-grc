@@ -1,0 +1,4 @@
+[trainer]
+name = "decent"
+[trainer.mix]
+name = "normal"

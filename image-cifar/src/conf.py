@@ -74,13 +74,7 @@ class Config(_BaseModel):
     seed: int = 42
     log: LogConfig = Field(default_factory=LogConfig)
     trainer: ALL_TRAINER_CONFIGS = Field(default_factory=DecentTrainConfig)
-    amp: bool = False
-
-
-class Env(_BaseModel):
-    world_size: int
-    gpu: str
-    node_list: str
+    world_size: int = -1
 
 
 def merge_dicts_recursive(d1, d2):

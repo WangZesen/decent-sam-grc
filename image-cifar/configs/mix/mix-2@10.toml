@@ -1,0 +1,7 @@
+[trainer]
+name = "decent"
+[trainer.mix]
+name = "adaptive"
+p = 2
+gamma_min = 0.0
+start_epoch = 10
