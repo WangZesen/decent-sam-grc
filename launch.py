@@ -6,16 +6,13 @@ import subprocess
 from typing import Final
 from loguru import logger
 
+timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+logger.add(f"logs/{timestamp}.log")
+
 SOFTWARE_VERSION: Final[dict[str, str]] = {
     "v4": "tpu-ubuntu2204-base",
     "v5litepod": "v2-alpha-tpuv5-lite",
     "v6e": "v2-alpha-tpuv6e",
-}
-TOPOLOGY_MAP: Final[dict[int, str]] = {
-    8: "1x1x1",
-    16: "2x1x1",
-    32: "2x2x1",
-    64: "2x2x2",
 }
 ALLOCATED_PAIRS = set(
     [
@@ -140,11 +137,7 @@ def launch_jobs(queue_name: str, zone: str, job_list_dir: str, args):
         "--worker=all",
         "--command={vm_command}",
     ]
-    check_finish_command_template = [
-        "gsutil",
-        "ls",
-        "gs://my-training-log/{tag}_{index:04d}.done"
-    ]
+    check_finish_command_template = ["gsutil", "ls", "gs://my-training-log/{tag}_{index:04d}.done"]
 
     configs = []
     tag = os.path.basename(job_list_dir).split("_")[-1].split(".")[0]
@@ -161,30 +154,32 @@ def launch_jobs(queue_name: str, zone: str, job_list_dir: str, args):
             logger.info("All jobs have been done!")
             break
 
+        job_index = configs[index][0]
+
         try:
-            subprocess.check_call([cmd.format(tag=tag, index=index) for cmd in check_finish_command_template])
-            logger.info(f"Job index {index:4d} is already completed. Skipping...")
+            subprocess.check_call([cmd.format(tag=tag, index=job_index) for cmd in check_finish_command_template])
+            logger.info(f"Job {job_index} is already completed. Skipping...")
             index += 1
             continue
         except subprocess.CalledProcessError:
             pass
 
-        logger.info(f"Launching job index: {index}")
-        configs_to_run = configs[index]
+        logger.info(f"Launching job index: {job_index}")
+        configs_to_run = configs[index][1:]  # Exclude the index part
 
         vm_command = (
             "cd $HOME/decent-sam-grc/image-cifar; "
             f"PJRT_DEVICE=TPU $HOME/.local/bin/uv run -m src.decent_train {' '.join(configs_to_run)} > out.log 2>&1 && "
-            f"gsutil mv out.log gs://my-training-log/{tag}_{index:04d}.log && "
-            f"gsutil mv stats.csv gs://my-training-log/{tag}_{index:04d}.csv && "
+            f"gsutil mv out.log gs://my-training-log/{tag}_{job_index}.log && "
+            f"gsutil mv stats.csv gs://my-training-log/{tag}_{job_index}.csv && "
             f"touch done && "
-            f"gsutil mv done gs://my-training-log/{tag}_{index:04d}.done"
+            f"gsutil mv done gs://my-training-log/{tag}_{job_index}.done"
         )
         command = [cmd.format(vm_command=vm_command) for cmd in vm_command_template]
         try:
             subprocess.check_call(command, stderr=subprocess.STDOUT)
         except subprocess.CalledProcessError as e:
-            logger.error(f"Job index {index} failed with error: {e}. Retrying...")
+            logger.error(f"Job {job_index} failed with error: {e}. Retrying...")
             status = fetch_queue_status(queue_name, zone)
             if status != "ACTIVE":
                 logger.info(f"TPU VM Queue '{queue_name}' is not ACTIVE. Recreating...")
@@ -207,7 +202,9 @@ def run_job(args):
             queue_name = args.queue_name
             logger.info(f"Using existing TPU VM Queue: {queue_name}")
         else:
-            assert (args.tpu, args.zone) in ALLOCATED_PAIRS, f"TPU type {args.tpu} is not available in zone {args.zone}."
+            assert (args.tpu, args.zone) in ALLOCATED_PAIRS, (
+                f"TPU type {args.tpu} is not available in zone {args.zone}."
+            )
             queue_name = create_tpu_vm_queue(tpu=args.tpu, num_cores=args.cores, zone=args.zone, time=args.duration)
             wait_for_queue_ready(queue_name, zone=args.zone)
             setup_env(queue_name, zone=args.zone)
@@ -218,10 +215,6 @@ def run_job(args):
         logger.error(f"Assertion Error: {ae}")
     except Exception as e:
         logger.error(f"An unexpected error occurred: {e}")
-    finally:
-        # if 'queue_name' in locals():
-        #     delete_tpu_vm_queue(queue_name, zone=args.zone)
-        pass
 
 
 if __name__ == "__main__":
@@ -231,7 +224,7 @@ if __name__ == "__main__":
         "-t", "--tpu", type=str, choices=["v4", "v5litepod", "v6e"], default="v5litepod", help="Type of TPU."
     )
     parser.add_argument("-c", "--cores", type=int, default=8, help="Number of TPU cores.")
-    parser.add_argument("-d", "--duration", type=str, default="8h", help="Duration for which the queue is valid.")
+    parser.add_argument("-d", "--duration", type=str, default="12h", help="Duration for which the queue is valid.")
     parser.add_argument("-q", "--queue-name", type=str, default="", help="Name of the TPU VM Queue to manage.")
     parser.add_argument("-l", "--job-list", type=str, help="Path to the job list file.", required=True)
     args = parser.parse_args()

@@ -1,21 +1,648 @@
-0000	c	o	n	f	i	g	s	/	s	e	e	d	/	s	e	e	d	1	.	t	o	m	l
-0001	c	o	n	f	i	g	s	/	s	e	e	d	/	s	e	e	d	2	.	t	o	m	l
-0002	c	o	n	f	i	g	s	/	s	e	e	d	/	s	e	e	d	3	.	t	o	m	l
-0003	c	o	n	f	i	g	s	/	m	i	x	/	p	/	p	=	1	.	t	o	m	l
-0004	c	o	n	f	i	g	s	/	m	i	x	/	p	/	p	=	2	.	t	o	m	l
-0005	c	o	n	f	i	g	s	/	m	i	x	/	p	/	p	=	3	.	t	o	m	l
-0006	c	o	n	f	i	g	s	/	m	i	x	/	p	/	p	=	4	.	t	o	m	l
-0007	c	o	n	f	i	g	s	/	m	i	x	/	p	/	p	=	5	.	t	o	m	l
-0008	c	o	n	f	i	g	s	/	m	i	x	/	s	t	a	r	t	/	s	=	1	0	.	t	o	m	l
-0009	c	o	n	f	i	g	s	/	m	i	x	/	s	t	a	r	t	/	s	=	1	0	0	.	t	o	m	l
-0010	c	o	n	f	i	g	s	/	m	i	x	/	s	t	a	r	t	/	s	=	1	5	0	.	t	o	m	l
-0011	c	o	n	f	i	g	s	/	m	i	x	/	s	t	a	r	t	/	s	=	5	0	.	t	o	m	l
-0012	c	o	n	f	i	g	s	/	t	o	p	o	/	c	o	m	p	l	e	t	e	.	t	o	m	l
-0013	c	o	n	f	i	g	s	/	t	o	p	o	/	e	x	p	.	t	o	m	l
-0014	c	o	n	f	i	g	s	/	t	o	p	o	/	r	i	n	g	.	t	o	m	l
-0015	c	o	n	f	i	g	s	/	d	a	t	a	s	e	t	/	c	i	f	a	r	1	0	.	t	o	m	l
-0016	c	o	n	f	i	g	s	/	d	a	t	a	s	e	t	/	c	i	f	a	r	1	0	0	.	t	o	m	l
-0017	c	o	n	f	i	g	s	/	m	o	d	e	l	/	w	r	n	1	6	-	8	.	t	o	m	l
-0018	c	o	n	f	i	g	s	/	m	o	d	e	l	/	w	r	n	2	8	-	1	0	.	t	o	m	l
-0019	c	o	n	f	i	g	s	/	b	s	/	1	2	8	.	t	o	m	l
-0020	c	o	n	f	i	g	s	/	b	s	/	2	5	6	.	t	o	m	l
+0000	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/normal.toml	configs/seed/seed1.toml
+0001	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0002	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0003	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0004	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0005	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0006	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed1.toml
+0007	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed1.toml
+0008	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed1.toml
+0009	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/normal.toml	configs/seed/seed2.toml
+0010	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0011	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0012	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0013	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0014	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0015	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed2.toml
+0016	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed2.toml
+0017	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed2.toml
+0018	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/normal.toml	configs/seed/seed3.toml
+0019	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0020	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0021	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0022	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0023	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0024	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed3.toml
+0025	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed3.toml
+0026	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed3.toml
+0027	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/normal.toml	configs/seed/seed1.toml
+0028	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0029	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0030	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0031	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0032	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0033	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed1.toml
+0034	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed1.toml
+0035	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed1.toml
+0036	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/normal.toml	configs/seed/seed2.toml
+0037	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0038	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0039	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0040	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0041	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0042	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed2.toml
+0043	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed2.toml
+0044	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed2.toml
+0045	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/normal.toml	configs/seed/seed3.toml
+0046	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0047	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0048	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0049	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0050	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0051	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed3.toml
+0052	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed3.toml
+0053	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed3.toml
+0054	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/normal.toml	configs/seed/seed1.toml
+0055	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0056	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0057	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0058	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0059	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0060	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed1.toml
+0061	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed1.toml
+0062	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed1.toml
+0063	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/normal.toml	configs/seed/seed2.toml
+0064	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0065	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0066	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0067	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0068	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0069	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed2.toml
+0070	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed2.toml
+0071	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed2.toml
+0072	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/normal.toml	configs/seed/seed3.toml
+0073	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0074	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0075	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0076	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0077	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0078	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed3.toml
+0079	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed3.toml
+0080	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed3.toml
+0081	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/normal.toml	configs/seed/seed1.toml
+0082	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0083	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0084	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0085	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0086	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0087	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed1.toml
+0088	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed1.toml
+0089	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed1.toml
+0090	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/normal.toml	configs/seed/seed2.toml
+0091	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0092	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0093	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0094	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0095	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0096	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed2.toml
+0097	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed2.toml
+0098	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed2.toml
+0099	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/normal.toml	configs/seed/seed3.toml
+0100	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0101	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0102	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0103	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0104	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0105	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed3.toml
+0106	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed3.toml
+0107	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed3.toml
+0108	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/normal.toml	configs/seed/seed1.toml
+0109	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0110	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0111	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0112	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0113	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0114	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed1.toml
+0115	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed1.toml
+0116	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed1.toml
+0117	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/normal.toml	configs/seed/seed2.toml
+0118	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0119	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0120	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0121	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0122	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0123	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed2.toml
+0124	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed2.toml
+0125	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed2.toml
+0126	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/normal.toml	configs/seed/seed3.toml
+0127	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0128	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0129	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0130	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0131	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0132	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed3.toml
+0133	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed3.toml
+0134	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed3.toml
+0135	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/normal.toml	configs/seed/seed1.toml
+0136	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0137	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0138	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0139	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0140	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0141	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed1.toml
+0142	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed1.toml
+0143	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed1.toml
+0144	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/normal.toml	configs/seed/seed2.toml
+0145	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0146	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0147	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0148	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0149	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0150	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed2.toml
+0151	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed2.toml
+0152	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed2.toml
+0153	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/normal.toml	configs/seed/seed3.toml
+0154	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0155	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0156	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0157	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0158	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0159	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed3.toml
+0160	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed3.toml
+0161	configs/dataset/cifar10.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed3.toml
+0162	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/normal.toml	configs/seed/seed1.toml
+0163	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0164	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0165	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0166	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0167	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0168	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed1.toml
+0169	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed1.toml
+0170	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed1.toml
+0171	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/normal.toml	configs/seed/seed2.toml
+0172	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0173	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0174	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0175	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0176	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0177	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed2.toml
+0178	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed2.toml
+0179	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed2.toml
+0180	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/normal.toml	configs/seed/seed3.toml
+0181	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0182	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0183	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0184	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0185	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0186	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed3.toml
+0187	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed3.toml
+0188	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed3.toml
+0189	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/normal.toml	configs/seed/seed1.toml
+0190	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0191	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0192	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0193	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0194	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0195	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed1.toml
+0196	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed1.toml
+0197	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed1.toml
+0198	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/normal.toml	configs/seed/seed2.toml
+0199	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0200	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0201	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0202	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0203	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0204	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed2.toml
+0205	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed2.toml
+0206	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed2.toml
+0207	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/normal.toml	configs/seed/seed3.toml
+0208	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0209	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0210	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0211	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0212	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0213	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed3.toml
+0214	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed3.toml
+0215	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed3.toml
+0216	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/normal.toml	configs/seed/seed1.toml
+0217	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0218	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0219	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0220	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0221	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0222	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed1.toml
+0223	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed1.toml
+0224	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed1.toml
+0225	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/normal.toml	configs/seed/seed2.toml
+0226	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0227	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0228	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0229	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0230	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0231	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed2.toml
+0232	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed2.toml
+0233	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed2.toml
+0234	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/normal.toml	configs/seed/seed3.toml
+0235	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0236	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0237	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0238	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0239	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0240	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed3.toml
+0241	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed3.toml
+0242	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed3.toml
+0243	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/normal.toml	configs/seed/seed1.toml
+0244	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0245	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0246	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0247	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0248	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0249	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed1.toml
+0250	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed1.toml
+0251	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed1.toml
+0252	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/normal.toml	configs/seed/seed2.toml
+0253	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0254	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0255	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0256	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0257	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0258	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed2.toml
+0259	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed2.toml
+0260	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed2.toml
+0261	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/normal.toml	configs/seed/seed3.toml
+0262	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0263	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0264	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0265	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0266	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0267	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed3.toml
+0268	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed3.toml
+0269	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed3.toml
+0270	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/normal.toml	configs/seed/seed1.toml
+0271	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0272	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0273	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0274	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0275	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0276	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed1.toml
+0277	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed1.toml
+0278	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed1.toml
+0279	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/normal.toml	configs/seed/seed2.toml
+0280	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0281	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0282	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0283	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0284	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0285	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed2.toml
+0286	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed2.toml
+0287	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed2.toml
+0288	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/normal.toml	configs/seed/seed3.toml
+0289	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0290	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0291	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0292	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0293	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0294	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed3.toml
+0295	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed3.toml
+0296	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed3.toml
+0297	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/normal.toml	configs/seed/seed1.toml
+0298	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0299	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0300	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0301	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0302	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0303	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed1.toml
+0304	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed1.toml
+0305	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed1.toml
+0306	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/normal.toml	configs/seed/seed2.toml
+0307	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0308	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0309	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0310	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0311	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0312	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed2.toml
+0313	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed2.toml
+0314	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed2.toml
+0315	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/normal.toml	configs/seed/seed3.toml
+0316	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0317	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0318	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0319	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0320	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0321	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed3.toml
+0322	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed3.toml
+0323	configs/dataset/cifar10.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed3.toml
+0324	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/normal.toml	configs/seed/seed1.toml
+0325	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0326	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0327	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0328	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0329	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0330	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed1.toml
+0331	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed1.toml
+0332	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed1.toml
+0333	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/normal.toml	configs/seed/seed2.toml
+0334	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0335	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0336	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0337	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0338	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0339	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed2.toml
+0340	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed2.toml
+0341	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed2.toml
+0342	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/normal.toml	configs/seed/seed3.toml
+0343	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0344	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0345	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0346	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0347	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0348	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed3.toml
+0349	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed3.toml
+0350	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed3.toml
+0351	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/normal.toml	configs/seed/seed1.toml
+0352	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0353	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0354	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0355	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0356	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0357	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed1.toml
+0358	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed1.toml
+0359	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed1.toml
+0360	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/normal.toml	configs/seed/seed2.toml
+0361	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0362	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0363	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0364	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0365	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0366	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed2.toml
+0367	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed2.toml
+0368	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed2.toml
+0369	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/normal.toml	configs/seed/seed3.toml
+0370	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0371	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0372	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0373	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0374	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0375	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed3.toml
+0376	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed3.toml
+0377	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed3.toml
+0378	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/normal.toml	configs/seed/seed1.toml
+0379	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0380	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0381	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0382	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0383	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0384	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed1.toml
+0385	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed1.toml
+0386	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed1.toml
+0387	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/normal.toml	configs/seed/seed2.toml
+0388	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0389	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0390	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0391	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0392	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0393	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed2.toml
+0394	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed2.toml
+0395	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed2.toml
+0396	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/normal.toml	configs/seed/seed3.toml
+0397	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0398	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0399	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0400	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0401	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0402	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed3.toml
+0403	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed3.toml
+0404	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed3.toml
+0405	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/normal.toml	configs/seed/seed1.toml
+0406	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0407	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0408	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0409	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0410	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0411	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed1.toml
+0412	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed1.toml
+0413	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed1.toml
+0414	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/normal.toml	configs/seed/seed2.toml
+0415	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0416	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0417	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0418	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0419	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0420	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed2.toml
+0421	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed2.toml
+0422	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed2.toml
+0423	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/normal.toml	configs/seed/seed3.toml
+0424	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0425	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0426	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0427	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0428	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0429	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed3.toml
+0430	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed3.toml
+0431	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed3.toml
+0432	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/normal.toml	configs/seed/seed1.toml
+0433	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0434	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0435	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0436	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0437	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0438	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed1.toml
+0439	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed1.toml
+0440	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed1.toml
+0441	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/normal.toml	configs/seed/seed2.toml
+0442	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0443	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0444	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0445	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0446	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0447	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed2.toml
+0448	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed2.toml
+0449	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed2.toml
+0450	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/normal.toml	configs/seed/seed3.toml
+0451	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0452	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0453	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0454	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0455	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0456	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed3.toml
+0457	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed3.toml
+0458	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed3.toml
+0459	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/normal.toml	configs/seed/seed1.toml
+0460	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0461	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0462	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0463	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0464	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0465	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed1.toml
+0466	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed1.toml
+0467	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed1.toml
+0468	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/normal.toml	configs/seed/seed2.toml
+0469	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0470	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0471	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0472	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0473	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0474	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed2.toml
+0475	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed2.toml
+0476	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed2.toml
+0477	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/normal.toml	configs/seed/seed3.toml
+0478	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0479	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0480	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0481	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0482	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0483	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed3.toml
+0484	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed3.toml
+0485	configs/dataset/cifar100.toml	configs/model/wrn16-8.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed3.toml
+0486	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/normal.toml	configs/seed/seed1.toml
+0487	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0488	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0489	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0490	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0491	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0492	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed1.toml
+0493	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed1.toml
+0494	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed1.toml
+0495	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/normal.toml	configs/seed/seed2.toml
+0496	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0497	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0498	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0499	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0500	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0501	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed2.toml
+0502	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed2.toml
+0503	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed2.toml
+0504	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/normal.toml	configs/seed/seed3.toml
+0505	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0506	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0507	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0508	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0509	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0510	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed3.toml
+0511	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed3.toml
+0512	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed3.toml
+0513	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/normal.toml	configs/seed/seed1.toml
+0514	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0515	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0516	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0517	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0518	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0519	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed1.toml
+0520	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed1.toml
+0521	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed1.toml
+0522	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/normal.toml	configs/seed/seed2.toml
+0523	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0524	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0525	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0526	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0527	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0528	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed2.toml
+0529	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed2.toml
+0530	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed2.toml
+0531	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/normal.toml	configs/seed/seed3.toml
+0532	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0533	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0534	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0535	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0536	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0537	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed3.toml
+0538	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed3.toml
+0539	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed3.toml
+0540	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/normal.toml	configs/seed/seed1.toml
+0541	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0542	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0543	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0544	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0545	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0546	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed1.toml
+0547	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed1.toml
+0548	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed1.toml
+0549	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/normal.toml	configs/seed/seed2.toml
+0550	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0551	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0552	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0553	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0554	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0555	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed2.toml
+0556	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed2.toml
+0557	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed2.toml
+0558	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/normal.toml	configs/seed/seed3.toml
+0559	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0560	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0561	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0562	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0563	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0564	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed3.toml
+0565	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed3.toml
+0566	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/128.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed3.toml
+0567	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/normal.toml	configs/seed/seed1.toml
+0568	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0569	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0570	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0571	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0572	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0573	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed1.toml
+0574	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed1.toml
+0575	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed1.toml
+0576	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/normal.toml	configs/seed/seed2.toml
+0577	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0578	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0579	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0580	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0581	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0582	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed2.toml
+0583	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed2.toml
+0584	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed2.toml
+0585	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/normal.toml	configs/seed/seed3.toml
+0586	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0587	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0588	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0589	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0590	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0591	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed3.toml
+0592	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed3.toml
+0593	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/complete.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed3.toml
+0594	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/normal.toml	configs/seed/seed1.toml
+0595	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0596	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0597	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0598	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0599	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0600	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed1.toml
+0601	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed1.toml
+0602	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed1.toml
+0603	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/normal.toml	configs/seed/seed2.toml
+0604	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0605	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0606	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0607	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0608	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0609	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed2.toml
+0610	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed2.toml
+0611	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed2.toml
+0612	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/normal.toml	configs/seed/seed3.toml
+0613	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0614	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0615	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0616	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0617	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0618	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed3.toml
+0619	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed3.toml
+0620	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/exp.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed3.toml
+0621	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/normal.toml	configs/seed/seed1.toml
+0622	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0623	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0624	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0625	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0626	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed1.toml
+0627	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed1.toml
+0628	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed1.toml
+0629	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed1.toml
+0630	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/normal.toml	configs/seed/seed2.toml
+0631	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0632	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0633	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0634	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0635	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed2.toml
+0636	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed2.toml
+0637	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed2.toml
+0638	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed2.toml
+0639	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/normal.toml	configs/seed/seed3.toml
+0640	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=1.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0641	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=2.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0642	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0643	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=4.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0644	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=5.toml	configs/mix/start/s=10.toml	configs/seed/seed3.toml
+0645	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=100.toml	configs/seed/seed3.toml
+0646	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=150.toml	configs/seed/seed3.toml
+0647	configs/dataset/cifar100.toml	configs/model/wrn28-10.toml	configs/bs/256.toml	configs/topo/ring.toml	configs/mix/p/p=3.toml	configs/mix/start/s=50.toml	configs/seed/seed3.toml

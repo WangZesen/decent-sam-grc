@@ -31,22 +31,17 @@ for dataset in dataset_config:
             for topo in topo_configs:
                 for seed in seed_configs:
                     # decent baseline
-                    all_configs.append(
-                        [dataset, model, bs, topo, "configs/mix/normal.toml", seed]
-                    )
+                    all_configs.append([dataset, model, bs, topo, "configs/mix/normal.toml", seed])
 
                     for p in p_configs:
-                        all_configs.append(
-                            [dataset, model, bs, topo, p, "configs/mix/start/s=10.toml", seed]
-                        )
+                        all_configs.append([dataset, model, bs, topo, p, "configs/mix/start/s=10.toml", seed])
                     for start in start_configs:
-                        all_configs.append(
-                            [dataset, model, bs, topo, "configs/mix/p/p=3.toml", start, seed]
-                        )
+                        all_configs.append([dataset, model, bs, topo, "configs/mix/p/p=3.toml", start, seed])
+
 
 # generate hash tag
-all_configs = seed_configs + p_configs + start_configs + topo_configs + dataset_config + model_config + bs_configs
-tag = hashlib.md5(' '.join(all_configs).encode('utf-8')).hexdigest()[:12]
+concat_configs = seed_configs + p_configs + start_configs + topo_configs + dataset_config + model_config + bs_configs
+tag = hashlib.md5(" ".join(concat_configs).encode("utf-8")).hexdigest()[:12]
 
 
 # write to job list file
