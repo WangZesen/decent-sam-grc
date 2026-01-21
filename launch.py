@@ -127,24 +127,8 @@ def setup_env(queue_name: str, zone: str):
     subprocess.check_call(command, stderr=subprocess.STDOUT)
     logger.info("Repository clone done")
 
-    # vm_command = (
-    #     "export GCSFUSE_REPO=gcsfuse-`lsb_release -c -s`;"
-    #     'echo "deb https://packages.cloud.google.com/apt $GCSFUSE_REPO main" | sudo tee /etc/apt/sources.list.d/gcsfuse.list; '
-    #     "curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -; "
-    #     "sudo apt-get update; "
-    #     "sudo apt-get install gcsfuse -y"
-    # )
-    # command = [cmd.format(vm_command=vm_command) for cmd in vm_command_template]
-    # out = subprocess.check_output(command, stderr=subprocess.STDOUT).decode("utf-8")
-    # logger.info("GCSFUSE installation done")
 
-    # vm_command = "mkdir -p $HOME/gcs-bucket; gcsfuse --implicit-dirs my-training-log $HOME/gcs-bucket"
-    # command = [cmd.format(vm_command=vm_command) for cmd in vm_command_template]
-    # out = subprocess.check_output(command, stderr=subprocess.STDOUT).decode("utf-8")
-    # logger.info("GCS bucket mount done")
-
-
-def launch_job(queue_name: str, zone: str):
+def launch_jobs(queue_name: str, zone: str, job_list_dir: str, args):
     vm_command_template = [
         "gcloud",
         "compute",
@@ -156,15 +140,65 @@ def launch_job(queue_name: str, zone: str):
         "--worker=all",
         "--command={vm_command}",
     ]
+    check_finish_command_template = [
+        "gsutil",
+        "ls",
+        "gs://my-training-log/{tag}_{index:04d}.done"
+    ]
 
-    vm_command = (
-        "cd $HOME/decent-sam-grc/image-cifar; "
-        f"export timestamp={datetime.datetime.now().strftime('%Y%m%d-%H%M%S')}; "
-        "PJRT_DEVICE=TPU $HOME/.local/bin/uv run -m src.decent_train configs/mix/mix-3@10.toml > out.log 2>&1"
-    )
-    command = [cmd.format(vm_command=vm_command) for cmd in vm_command_template]
-    out = subprocess.check_output(command, stderr=subprocess.STDOUT).decode("utf-8")
-    logger.info(f"Training job output: {out}")
+    configs = []
+    tag = os.path.basename(job_list_dir).split("_")[-1].split(".")[0]
+    with open(job_list_dir, "r") as f:
+        line = f.readline()
+        while line:
+            line = line.strip()
+            configs.append(line.split("\t")[1:])
+            line = f.readline()
+    index = 0
+
+    while True:
+        if index >= len(configs):
+            logger.info("All jobs have been done!")
+            break
+
+        try:
+            subprocess.check_call([cmd.format(tag=tag, index=index) for cmd in check_finish_command_template])
+            logger.info(f"Job index {index:4d} is already completed. Skipping...")
+            index += 1
+            continue
+        except subprocess.CalledProcessError:
+            pass
+
+        logger.info(f"Launching job index: {index}")
+        configs_to_run = configs[index]
+
+        vm_command = (
+            "cd $HOME/decent-sam-grc/image-cifar; "
+            f"PJRT_DEVICE=TPU $HOME/.local/bin/uv run -m src.decent_train {' '.join(configs_to_run)} > out.log 2>&1 && "
+            f"gsutil mv out.log gs://my-training-log/{tag}_{index:04d}.log && "
+            f"gsutil mv stats.csv gs://my-training-log/{tag}_{index:04d}.csv && "
+            f"touch done && "
+            f"gsutil mv done gs://my-training-log/{tag}_{index:04d}.done"
+        )
+        command = [cmd.format(vm_command=vm_command) for cmd in vm_command_template]
+        try:
+            subprocess.check_call(command, stderr=subprocess.STDOUT)
+        except subprocess.CalledProcessError as e:
+            logger.error(f"Job index {index} failed with error: {e}. Retrying...")
+            status = fetch_queue_status(queue_name, zone)
+            if status != "ACTIVE":
+                logger.info(f"TPU VM Queue '{queue_name}' is not ACTIVE. Recreating...")
+                delete_tpu_vm_queue(queue_name, zone)
+                queue_name = create_tpu_vm_queue(tpu=args.tpu, num_cores=args.cores, zone=args.zone, time=args.duration)
+                wait_for_queue_ready(queue_name, zone=args.zone)
+                setup_env(queue_name, zone=args.zone)
+                index -= 1  # Retry the same job
+            else:
+                raise Exception(f"TPU VM Queue is ACTIVE but job failed. Please check the logs. {e}")
+        except Exception as e:
+            raise Exception(f"An unexpected error occurred: {e}")
+
+        index += 1
 
 
 def run_job(args):
@@ -177,12 +211,13 @@ def run_job(args):
             queue_name = create_tpu_vm_queue(tpu=args.tpu, num_cores=args.cores, zone=args.zone, time=args.duration)
             wait_for_queue_ready(queue_name, zone=args.zone)
             setup_env(queue_name, zone=args.zone)
-        logger.info("TPU VM Queue is ready for use.")
-        launch_job(queue_name, zone=args.zone)
+        launch_jobs(queue_name, zone=args.zone, job_list_dir=args.job_list, args=args)
     except subprocess.CalledProcessError as e:
         logger.error(f"An error occurred while creating or checking the TPU VM Queue: {e}")
     except AssertionError as ae:
-        logger.error(str(ae))
+        logger.error(f"Assertion Error: {ae}")
+    except Exception as e:
+        logger.error(f"An unexpected error occurred: {e}")
     finally:
         # if 'queue_name' in locals():
         #     delete_tpu_vm_queue(queue_name, zone=args.zone)
@@ -198,6 +233,7 @@ if __name__ == "__main__":
     parser.add_argument("-c", "--cores", type=int, default=8, help="Number of TPU cores.")
     parser.add_argument("-d", "--duration", type=str, default="8h", help="Duration for which the queue is valid.")
     parser.add_argument("-q", "--queue-name", type=str, default="", help="Name of the TPU VM Queue to manage.")
+    parser.add_argument("-l", "--job-list", type=str, help="Path to the job list file.", required=True)
     args = parser.parse_args()
 
     run_job(args)

@@ -1,0 +1,21 @@
+0000	c	o	n	f	i	g	s	/	s	e	e	d	/	s	e	e	d	1	.	t	o	m	l
+0001	c	o	n	f	i	g	s	/	s	e	e	d	/	s	e	e	d	2	.	t	o	m	l
+0002	c	o	n	f	i	g	s	/	s	e	e	d	/	s	e	e	d	3	.	t	o	m	l
+0003	c	o	n	f	i	g	s	/	m	i	x	/	p	/	p	=	1	.	t	o	m	l
+0004	c	o	n	f	i	g	s	/	m	i	x	/	p	/	p	=	2	.	t	o	m	l
+0005	c	o	n	f	i	g	s	/	m	i	x	/	p	/	p	=	3	.	t	o	m	l
+0006	c	o	n	f	i	g	s	/	m	i	x	/	p	/	p	=	4	.	t	o	m	l
+0007	c	o	n	f	i	g	s	/	m	i	x	/	p	/	p	=	5	.	t	o	m	l
+0008	c	o	n	f	i	g	s	/	m	i	x	/	s	t	a	r	t	/	s	=	1	0	.	t	o	m	l
+0009	c	o	n	f	i	g	s	/	m	i	x	/	s	t	a	r	t	/	s	=	1	0	0	.	t	o	m	l
+0010	c	o	n	f	i	g	s	/	m	i	x	/	s	t	a	r	t	/	s	=	1	5	0	.	t	o	m	l
+0011	c	o	n	f	i	g	s	/	m	i	x	/	s	t	a	r	t	/	s	=	5	0	.	t	o	m	l
+0012	c	o	n	f	i	g	s	/	t	o	p	o	/	c	o	m	p	l	e	t	e	.	t	o	m	l
+0013	c	o	n	f	i	g	s	/	t	o	p	o	/	e	x	p	.	t	o	m	l
+0014	c	o	n	f	i	g	s	/	t	o	p	o	/	r	i	n	g	.	t	o	m	l
+0015	c	o	n	f	i	g	s	/	d	a	t	a	s	e	t	/	c	i	f	a	r	1	0	.	t	o	m	l
+0016	c	o	n	f	i	g	s	/	d	a	t	a	s	e	t	/	c	i	f	a	r	1	0	0	.	t	o	m	l
+0017	c	o	n	f	i	g	s	/	m	o	d	e	l	/	w	r	n	1	6	-	8	.	t	o	m	l
+0018	c	o	n	f	i	g	s	/	m	o	d	e	l	/	w	r	n	2	8	-	1	0	.	t	o	m	l
+0019	c	o	n	f	i	g	s	/	b	s	/	2	5	6	.	t	o	m	l
+0020	c	o	n	f	i	g	s	/	b	s	/	5	1	2	.	t	o	m	l

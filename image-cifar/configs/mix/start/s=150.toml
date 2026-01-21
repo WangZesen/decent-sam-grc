@@ -2,4 +2,4 @@
 name = "decent"
 [trainer.mix]
 name = "adaptive"
-start_epoch = 70
+start_epoch = 150
