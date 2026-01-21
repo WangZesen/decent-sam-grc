@@ -14,7 +14,6 @@ from src.data import CifarLoader, Dataset
 from src.conf import Config, load_all_configs, Topology
 from src.model import get_model
 from src.utils import get_param_groups, get_scheduler, collect_env, get_group_name, get_adaptive_gamma, get_run_name
-import torch_xla.debug.metrics as met
 
 
 @dataclass
@@ -32,7 +31,7 @@ class DecentDP(torch.nn.Module):
         bucket_size: int = 13107200,
     ):
         super().__init__()
-        
+
         device = torch_xla.device()
         self._device = device
 
@@ -43,14 +42,14 @@ class DecentDP(torch.nn.Module):
         # acquire distributed info from env variables
         self._world_size = dist.get_world_size()
         self._rank = dist.get_rank()
-        self._local_world_size = int(os.environ.get("LOCAL_WORLD_SIZE", "1"))
-        self._local_rank = int(os.environ.get("LOCAL_RANK", "0"))
+        # self._local_world_size =
+        self._local_rank = xm.get_local_ordinal()
 
         # sync parameters at start
         self._sync_params()
 
         # remap parameters into buckets
-        self._create_buckets()
+        self._create_buffers()
 
         # create communication groups based on topology
         self._create_comm_groups()
@@ -67,28 +66,20 @@ class DecentDP(torch.nn.Module):
         for param in self._module.parameters():
             data.append(param.data)
         xm.collective_broadcast(data, root_ordinal=0)
+        torch_xla.sync()
 
     @torch.no_grad()
-    def _create_buckets(self):
-        self._bucket_total_size = sum([self._align(param.numel()) for param in self._module.parameters()])
-        self._param_bucket = torch.zeros((self._bucket_total_size), dtype=torch.float32, device=self._device)
-        self._comm_bucket = torch.zeros((self._bucket_total_size), dtype=torch.float32, device=self._device)
-
-        offset = 0
+    def _create_buffers(self):
+        self._comm_buffers = []
+        self._backup_buffers = []
+        self._params = [p.data for p in self._module.parameters()]
         for param in self._module.parameters():
-            size = param.numel()
-            aligned_size = self._align(size)
-
-            assert param.is_contiguous(), "Parameters must be contiguous"
-
-            # Copy parameter data into the bucket
-            chunk = self._param_bucket[offset : offset + size]
-            chunk.copy_(param.data.view(-1))
-
-            # Store a view of the chunk back to the parameter for easy access
-            param.data = chunk.view_as(param)
-            offset += aligned_size
-        self._comm_bucket.copy_(self._param_bucket)
+            buf = torch.zeros_like(param.data)
+            self._comm_buffers.append(buf)
+            buf = torch.zeros_like(param.data)
+            self._backup_buffers.append(buf)
+        torch._foreach_copy_(self._comm_buffers, self._params)
+        torch._foreach_copy_(self._backup_buffers, self._params)
 
     @torch.no_grad()
     def _create_comm_groups(self):
@@ -121,8 +112,10 @@ class DecentDP(torch.nn.Module):
 
     @torch.no_grad()
     def mix(self, gamma: float = 1.0):
-        self._param_bucket.mul_(1 - gamma)
-        self._param_bucket.add_(self._comm_bucket, alpha=gamma)
+        # torch._foreach_mul_(self._params, 1 - gamma)
+        # torch._foreach_add_(self._params, self._comm_buffers, alpha=gamma)
+
+        torch._foreach_copy_(self._params, self._comm_buffers)
 
     @torch.no_grad()
     def start_comm(self):
@@ -131,36 +124,42 @@ class DecentDP(torch.nn.Module):
             if self._rank in group_ranks:
                 weight = 1.0 / len(group_ranks)
                 break
-        self._comm_bucket.copy_(self._param_bucket).mul_(weight)
+        torch._foreach_copy_(self._comm_buffers, self._params)
+        torch._foreach_mul_(self._comm_buffers, weight)
         xm.all_reduce(
             xm.REDUCE_SUM,
-            self._comm_bucket,
+            self._comm_buffers,
             groups=self._comm_groups[self._step % len(self._comm_groups)],
         )
 
     @torch.no_grad()
     def global_avg(self) -> float:
-        self._backup = self._param_bucket.clone()
-        xm.all_reduce(xm.REDUCE_SUM, self._param_bucket)
-        self._param_bucket.div_(self._world_size)
-        d2c = torch.norm(self._param_bucket - self._backup)
+        torch._foreach_copy_(self._backup_buffers, self._params)
+        xm.all_reduce(
+            xm.REDUCE_SUM,
+            self._params,
+        )
+        torch._foreach_div_(self._params, self._world_size)
+        d2c = torch.norm(torch.stack([torch.norm(p1 - p2) for p1, p2 in zip(self._params, self._backup_buffers)]))
         xm.all_reduce(xm.REDUCE_SUM, d2c)
         d2c = d2c / self._world_size
+        torch_xla.sync()
         return d2c.item()
 
     @torch.no_grad()
     def restore(self):
-        self._param_bucket.copy_(self._backup)
-        del self._backup
+        torch._foreach_copy_(self._params, self._backup_buffers)
 
     @torch.no_grad()
     def sync_buffers(self):
+        data = []
         for buffer in self._module.buffers():
             if buffer.dtype in [torch.float16, torch.float32, torch.float64]:
-                xm.all_reduce(xm.REDUCE_SUM, buffer)
-                buffer.div_(self._world_size)
+                data.append(buffer)
             else:
                 pass
+        xm.all_reduce(xm.REDUCE_SUM, data)
+        torch._foreach_div_(data, self._world_size)
         torch_xla.sync()
 
     def _align(self, size: int):
@@ -194,45 +193,40 @@ def train_epoch(
     cfg: Config,
     max_lr: float,
 ) -> Tuple[float, float]:
-    met.clear_all()
 
     model.train()
     total_loss_tpu = torch.tensor(0.0, device=torch_xla.device(), requires_grad=False)
-    num_samples = 0
+    num_samples = torch.tensor(0.0, device=torch_xla.device(), requires_grad=False)
     gamma = 1.0
 
-    torch_xla.sync()
+    torch_xla.sync(wait=True)
     start_time = time.time()
 
     for images, labels in train_loader:
         # gamma = get_adaptive_gamma(cfg, scheduler.get_last_lr()[0], max_lr, epoch)
-        # model.start_comm()
+        model.start_comm()
         optimizer.zero_grad()
-        outputs = model(images)
-        loss = criterion(outputs, labels)
+        with torch.autocast(device_type="xla"):
+            outputs = model(images)
+            loss = criterion(outputs, labels)
         loss.backward()
-        # model.mix(gamma)
+        model.mix(gamma)
         optimizer.step()
         scheduler.step()
-        
-        # batch_size = images.size(0)
-        # total_loss_tpu += loss.clone().detach() * batch_size
-        # num_samples += batch_size
+
+        batch_size = images.size(0)
+        total_loss_tpu += loss * batch_size
+        num_samples += batch_size
         torch_xla.sync(wait=False)
-    print(num_samples, flush=True)
 
     torch_xla.sync()
-    xm.xla_rendezvous(b"check_loss_sync")
     end_time = time.time()
 
-    data = torch.tensor([total_loss_tpu, num_samples], device=torch_xla.device(), requires_grad=False)
+    data = torch.stack([total_loss_tpu, num_samples], dim=0)
     xm.all_reduce(xm.REDUCE_SUM, data)
-    avg_loss = (data[0] / data[1]).item()
     torch_xla.sync()
-    if xm.is_master_ordinal(local=True):
-        with open(f"./report_{epoch}.txt", "w") as f:
-            print(met.short_metrics_report(), flush=True, file=f)
-            print(met.metrics_report(), flush=True, file=f)
+    avg_loss = (data[0] / data[1]).item()
+
     return avg_loss, end_time - start_time
 
 
@@ -247,14 +241,15 @@ def eval_epoch(
     with torch.no_grad():
         model.train()
         for images, _ in train_loader:
-            model(images)
+            with torch.autocast(device_type="xla"):
+                model(images)
             torch_xla.sync()
     model.eval()
     model.sync_buffers()
 
     total_loss = torch.tensor(0.0, device=torch_xla.device(), requires_grad=False)
     total_correct = torch.tensor(0.0, device=torch_xla.device(), requires_grad=False)
-    total_samples = 0
+    total_samples = torch.tensor(0.0, device=torch_xla.device(), requires_grad=False)
     torch_xla.sync()
     with torch.no_grad():
         for images, labels in test_loader:
@@ -266,8 +261,9 @@ def eval_epoch(
             total_correct += (outputs.argmax(dim=1) == labels).sum()
             total_samples += batch_size
             torch_xla.sync()
-    data = torch.tensor([total_loss, total_correct, total_samples], device=torch_xla.device(), requires_grad=False)
+    data = torch.stack([total_loss, total_correct, total_samples], dim=0)
     xm.all_reduce(xm.REDUCE_SUM, data)
+    torch_xla.sync()
     avg_loss = (data[0] / data[2]).item()
     accuracy = (data[1] / data[2]).item()
 
@@ -345,17 +341,7 @@ def main(rank: int):
 
     total_train_time = 0.0
     stats = pd.DataFrame(
-        columns=[
-            "epoch",
-            "train_loss",
-            "test_loss",
-            "test_acc",
-            "d2c",
-            "epoch_time",
-            "total_train_time",
-            "lr",
-            "gamma"
-        ]
+        columns=["epoch", "train_loss", "test_loss", "test_acc", "d2c", "epoch_time", "total_train_time", "lr", "gamma"]
     )
 
     max_lr = 0.0
@@ -370,13 +356,7 @@ def main(rank: int):
 
         train_loss, train_time = train_epoch(model, train_ds, criterion, optimizer, scheduler, epoch, cfg, max_lr)
         if (epoch + 1) % cfg.log.eval_interval == 0 or epoch == cfg.epochs - 1:
-            test_loss, test_acc, d2c = eval_epoch(
-                model,
-                train_ds,
-                test_ds,
-                criterion,
-                cfg
-            )
+            test_loss, test_acc, d2c = eval_epoch(model, train_ds, test_ds, criterion, cfg)
             if xm.is_master_ordinal(local=True):
                 gamma = get_adaptive_gamma(cfg, scheduler.get_last_lr()[0], max_lr, epoch)
                 logger.info(
@@ -398,7 +378,7 @@ def main(rank: int):
                     train_time,
                     total_train_time,
                     scheduler.get_last_lr()[0],
-                    gamma
+                    gamma,
                 ]
                 if xm.is_master_ordinal(local=False):
                     pass

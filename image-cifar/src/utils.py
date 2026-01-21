@@ -1,5 +1,4 @@
 import os
-import subprocess
 import torch
 import torch.nn as nn
 import torch_xla.runtime as xr
