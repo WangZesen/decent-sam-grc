@@ -14,7 +14,8 @@ from src.data import CifarLoader, Dataset
 from src.conf import Config, load_all_configs, Topology
 from src.model import get_model
 from src.utils import get_param_groups, get_scheduler, collect_env, get_group_name, get_adaptive_gamma, get_run_name
-import torch_xla.debug.profiler as xp
+import torchvision as tv
+from torch_xla.distributed.parallel_loader import MpDeviceLoader
 
 @dataclass
 class CommGroup:
@@ -139,6 +140,7 @@ class DecentDP(torch.nn.Module):
             self._params,
             scale=1.0 / self._world_size,
         )
+        xm.wait_device_ops()
         d2c = torch.norm(torch.stack([torch.norm(p1 - p2) for p1, p2 in zip(self._params, self._backup_buffers)]))
         d2c = xm.all_reduce(xm.REDUCE_SUM, d2c, scale=1.0 / self._world_size)
         xm.wait_device_ops()
@@ -183,7 +185,7 @@ class DecentDP(torch.nn.Module):
 
 def train_epoch(
     model: DecentDP,
-    train_loader: CifarLoader,
+    train_loader: MpDeviceLoader,
     criterion: torch.nn.Module,
     optimizer: torch.optim.Optimizer,
     scheduler: torch.optim.lr_scheduler.LRScheduler,
@@ -196,9 +198,9 @@ def train_epoch(
     total_loss_tpu = torch.tensor(0.0, device=torch_xla.device(), requires_grad=False)
     num_samples = torch.tensor(0.0, device=torch_xla.device(), requires_grad=False)
     gamma = 1.0
+    start_time = time.time()
 
     torch_xla.sync(wait=True)
-    start_time = time.time()
 
     for images, labels in train_loader:
         # gamma = get_adaptive_gamma(cfg, scheduler.get_last_lr()[0], max_lr, epoch)
@@ -214,7 +216,8 @@ def train_epoch(
         batch_size = images.size(0)
         total_loss_tpu += loss * batch_size
         num_samples += batch_size
-        torch_xla.sync(wait=False)
+
+        torch_xla.sync()
 
     end_time = time.time()
     xm.wait_device_ops()
@@ -229,8 +232,8 @@ def train_epoch(
 
 def eval_epoch(
     model: DecentDP,
-    train_loader: CifarLoader,
-    test_loader: CifarLoader,
+    train_loader: MpDeviceLoader,
+    test_loader: MpDeviceLoader,
     criterion: torch.nn.Module,
     cfg: Config,
 ):
@@ -307,21 +310,94 @@ def main(rank: int):
     torch_xla.manual_seed(cfg.seed)
     xm.xla_rendezvous(b"setup_complete")
 
-    train_ds = CifarLoader(
-        ds_name=cfg.dataset,
+    if not xm.is_master_ordinal(local=True):
+        xm.xla_rendezvous(b"data loading")
+
+
+    # train_ds = CifarLoader(
+    #     ds_name=cfg.dataset,
+    #     train=True,
+    #     batch_size=cfg.batch_size,
+    #     rank=rank,
+    #     num_replicas=world_size,
+    #     base_seed=cfg.seed,
+    # )
+    # test_ds = CifarLoader(
+    #     ds_name=cfg.dataset,
+    #     train=False,
+    #     batch_size=cfg.batch_size,
+    #     rank=rank,
+    #     num_replicas=world_size,
+    # )
+
+    train_dataset = tv.datasets.CIFAR10(
+        root="./data",
         train=True,
-        batch_size=cfg.batch_size,
-        rank=rank,
-        num_replicas=world_size,
-        base_seed=cfg.seed,
+        download=True,
+        transform=tv.transforms.Compose(
+            [
+                tv.transforms.RandomCrop(32, padding=4),
+                tv.transforms.RandomHorizontalFlip(),
+                tv.transforms.ToTensor(),
+                tv.transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+            ]
+        ),
     )
-    test_ds = CifarLoader(
-        ds_name=cfg.dataset,
+
+    train_sampler = torch.utils.data.DistributedSampler(
+                train_dataset,
+                num_replicas=world_size,
+                rank=rank,
+                shuffle=True,
+                seed=cfg.seed,
+                drop_last=True,
+            )
+
+    test_dataset = tv.datasets.CIFAR10(
+        root="./data",
         train=False,
-        batch_size=cfg.batch_size,
-        rank=rank,
-        num_replicas=world_size,
+        download=True,
+        transform=tv.transforms.Compose(
+            [
+                tv.transforms.ToTensor(),
+                tv.transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+            ]
+        ),
     )
+
+    train_ds = MpDeviceLoader(
+        torch.utils.data.DataLoader(
+            train_dataset,
+            batch_size=cfg.batch_size // world_size,
+            sampler=train_sampler,
+            num_workers=4,
+            persistent_workers=True,
+            prefetch_factor=16,
+        ),
+        device=torch_xla.device(),
+    )
+    test_ds = MpDeviceLoader(
+        torch.utils.data.DataLoader(
+            test_dataset,
+            batch_size=cfg.batch_size // world_size,
+            sampler=torch.utils.data.DistributedSampler(
+                test_dataset,
+                num_replicas=world_size,
+                rank=rank,
+                shuffle=False,
+                seed=cfg.seed,
+                drop_last=False,
+            ),
+            num_workers=4,
+            persistent_workers=True,
+            prefetch_factor=16,
+        ),
+        device=torch_xla.device(),
+    )
+
+
+    if xm.is_master_ordinal(local=True):
+        xm.xla_rendezvous(b"data loading")
 
     model = get_model(cfg.model, num_classes=10 if cfg.dataset == Dataset.CIFAR10 else 100)
     # model.forward = torch.compile(model.forward)
@@ -343,11 +419,8 @@ def main(rank: int):
 
     max_lr = 0.0
 
-    xp.start_server(9999)
-    xp.start_trace("./logs")
-
-    for epoch in range(min(cfg.epochs, 3)):
-        train_ds.set_epoch(epoch)
+    for epoch in range(cfg.epochs):
+        train_sampler.set_epoch(epoch)
 
         if (cfg.trainer.mix.name == "adaptive") and (epoch == cfg.trainer.mix.start_epoch):
             max_lr = scheduler.get_last_lr()[0]
@@ -402,8 +475,6 @@ def main(rank: int):
         os.makedirs(f"./logs/test", exist_ok=True)
         stats.to_csv(f"./logs/test/stats.csv", index=False)
         # wandb.finish()
-    
-    xp.stop_trace()
 
     dist.destroy_process_group()
 

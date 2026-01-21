@@ -51,7 +51,7 @@ class Topology(str, Enum):
 
 class DecentTrainConfig(_BaseModel):
     name: Literal["decent"] = "decent"
-    topology: Topology = Topology.COMPLETE
+    topology: Topology = Topology.RING
     mix: ALL_MIX_CONFIGS = Field(default_factory=NormalMixConfig, discriminator="name")
 
 
