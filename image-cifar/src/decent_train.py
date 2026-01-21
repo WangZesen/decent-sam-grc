@@ -14,7 +14,7 @@ from src.data import CifarLoader, Dataset
 from src.conf import Config, load_all_configs, Topology
 from src.model import get_model
 from src.utils import get_param_groups, get_scheduler, collect_env, get_group_name, get_adaptive_gamma, get_run_name
-
+import torch_xla.debug.profiler as xp
 
 @dataclass
 class CommGroup:
@@ -204,15 +204,19 @@ def train_epoch(
 
     for images, labels in train_loader:
         # gamma = get_adaptive_gamma(cfg, scheduler.get_last_lr()[0], max_lr, epoch)
-        model.start_comm()
+        with xp.Trace('comm_start'):
+            model.start_comm()
         optimizer.zero_grad()
-        with torch.autocast(device_type="xla"):
+        with xp.Trace('forward'):
             outputs = model(images)
             loss = criterion(outputs, labels)
-        loss.backward()
-        model.mix(gamma)
-        optimizer.step()
-        scheduler.step()
+        with xp.Trace('backward'):
+            loss.backward()
+        with xp.Trace('mix'):
+            model.mix(gamma)
+        with xp.Trace('optimizer_step'):
+            optimizer.step()
+            scheduler.step()
 
         batch_size = images.size(0)
         total_loss_tpu += loss * batch_size
@@ -241,8 +245,7 @@ def eval_epoch(
     with torch.no_grad():
         model.train()
         for images, _ in train_loader:
-            with torch.autocast(device_type="xla"):
-                model(images)
+            model(images)
             torch_xla.sync()
     model.eval()
     model.sync_buffers()
@@ -346,7 +349,10 @@ def main(rank: int):
 
     max_lr = 0.0
 
-    for epoch in range(cfg.epochs):
+    xp.start_server(9999)
+    xp.start_trace("./logs")
+
+    for epoch in range(min(cfg.epochs, 3)):
         train_ds.set_epoch(epoch)
 
         if (cfg.trainer.mix.name == "adaptive") and (epoch == cfg.trainer.mix.start_epoch):
@@ -397,6 +403,8 @@ def main(rank: int):
         else:
             if xm.is_master_ordinal(local=True):
                 logger.info(f"Epoch [{epoch + 1}/{cfg.epochs}] Train Loss: {train_loss:.5f}")
+
+    xp.stop_trace()
 
     if xm.is_master_ordinal(local=True):
         stats.to_csv(f"./logs/{os.environ.get('SLURM_JOB_ID')}/stats.csv", index=False)
