@@ -1,0 +1,6 @@
+[trainer]
+name = "decent"
+[trainer.mix]
+name = "adaptive"
+p = 5.0
+min_gamma = 0.0

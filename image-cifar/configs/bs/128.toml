@@ -1,0 +1,2 @@
+batch_size = 128
+base_lr = 0.1

@@ -1,0 +1,5 @@
+[trainer]
+name = "decent"
+[trainer.mix]
+name = "adaptive"
+start_epoch = 175

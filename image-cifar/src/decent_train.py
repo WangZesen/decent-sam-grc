@@ -1,4 +1,3 @@
-import os
 import sys
 import time
 import pandas as pd
@@ -10,7 +9,7 @@ from typing import Optional, Tuple
 from dataclasses import dataclass
 from loguru import logger
 from src.data import Dataset
-from src.conf import Config, load_all_configs, Topology
+from src.conf import Config, load_all_configs, Topology, dump_config_to_file
 from src.model import get_model
 from src.utils import get_param_groups, get_scheduler, get_adaptive_gamma
 import torchvision as tv
@@ -286,16 +285,7 @@ def main(rank: int):
         logger.add(sys.stdout, level="TRACE")
         logger.info(cfg)
         logger.info(f"world_size: {world_size}, rank: {rank}")
-    if xm.is_master_ordinal(local=False):
-        pass
-        # wandb.init(
-        #     project=cfg.log.project,
-        #     config=cfg_obj,
-        #     dir=os.environ.get("TMPDIR", "/tmp"),
-        #     save_code=True,
-        #     group=get_group_name(cfg, env),
-        #     name=get_run_name(cfg, env),
-        # )
+        dump_config_to_file(cfg, "./config.toml")
 
     torch.manual_seed(cfg.seed)
     torch_xla.manual_seed(cfg.seed)
@@ -303,22 +293,6 @@ def main(rank: int):
 
     if not xm.is_master_ordinal(local=True):
         xm.xla_rendezvous(b"data loading")
-
-    # train_ds = CifarLoader(
-    #     ds_name=cfg.dataset,
-    #     train=True,
-    #     batch_size=cfg.batch_size,
-    #     rank=rank,
-    #     num_replicas=world_size,
-    #     base_seed=cfg.seed,
-    # )
-    # test_ds = CifarLoader(
-    #     ds_name=cfg.dataset,
-    #     train=False,
-    #     batch_size=cfg.batch_size,
-    #     rank=rank,
-    #     num_replicas=world_size,
-    # )
 
     if cfg.dataset == Dataset.CIFAR10:
         train_dataset = tv.datasets.CIFAR10(
@@ -420,7 +394,6 @@ def main(rank: int):
         xm.xla_rendezvous(b"data loading")
 
     model = get_model(cfg.model, num_classes=10 if cfg.dataset == Dataset.CIFAR10 else 100)
-    model.forward = torch.compile(model.forward)
     model = DecentDP(model, topology=cfg.trainer.topology)
 
     optimizer = torch.optim.SGD(
@@ -473,28 +446,12 @@ def main(rank: int):
                     scheduler.get_last_lr()[0],
                     gamma,
                 ]
-                if xm.is_master_ordinal(local=False):
-                    pass
-                    # data = {
-                    #     "metric/train_loss": train_loss,
-                    #     "metric/test_loss": test_loss,
-                    #     "metric/test_acc": test_acc,
-                    #     "metric/d2c": d2c,
-                    #     "metric/epoch": epoch + 1,
-                    #     "metric/epoch_time": train_time,
-                    #     "metric/total_train_time": total_train_time,
-                    #     "metric/lr": scheduler.get_last_lr()[0],
-                    #     "metric/gamma": gamma
-                    # }
-                    # wandb.log(data, step=epoch + 1)
         else:
             if xm.is_master_ordinal(local=True):
                 logger.info(f"Epoch [{epoch + 1}/{cfg.epochs}] Train Loss: {train_loss:.5f}")
 
     if xm.is_master_ordinal(local=True):
-        os.makedirs(f"./logs/test", exist_ok=True)
-        stats.to_csv(f"./logs/test/stats.csv", index=False)
-        # wandb.finish()
+        stats.to_csv("stats.csv", index=False)
 
     dist.destroy_process_group()
 

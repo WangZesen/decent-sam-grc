@@ -2,6 +2,4 @@
 name = "decent"
 [trainer.mix]
 name = "adaptive"
-p = 3
-gamma_min = 0.0
-start_epoch = 10
+start_epoch = 160
